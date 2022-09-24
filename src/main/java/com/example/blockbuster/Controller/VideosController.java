@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/videos")
 class VideosController {
 
     @Autowired
@@ -18,22 +19,23 @@ class VideosController {
         this.videoRepository = videoRepository;
     }
 
-    @GetMapping("/videos")
-    public List<Video> getAllVideos(){
+    @GetMapping
+    public Iterable<Video> getAllVideos(){
          return videoRepository.findAll();
     }
 
-    @GetMapping("/videos/{id}")
+
+    @GetMapping("/{id}")
     public Video getVideoById(@PathVariable Long id){
         return videoRepository.findById(id).orElseThrow(() -> new VideoNotFoundException(id));
     }
 
-    @PostMapping("/videos")
+    @PostMapping
     public Video addNewVideo( @RequestBody Video video){
         return videoRepository.save(video);
     }
 
-    @PutMapping("/videos/{id}")
+    @PutMapping("/{id}")
     public Video updateNewVideo(@RequestBody Video newVideo, @PathVariable Long id){
         return videoRepository.findById(id)
                 .map( video ->{
@@ -48,7 +50,7 @@ class VideosController {
                 });
     }
 
-    @DeleteMapping("/videos/{id}")
+    @DeleteMapping("/{id}")
     public void deleteVideo(@PathVariable Long id){
         videoRepository.deleteById(id);
     }

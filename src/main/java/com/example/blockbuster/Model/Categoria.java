@@ -1,9 +1,6 @@
 package com.example.blockbuster.Model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Objects;
@@ -57,9 +54,6 @@ public class Categoria {
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (titulo != null ? titulo.hashCode() : 0);
-        result = 31 * result + (cor != null ? cor.hashCode() : 0);
-        return result;
+        return id != null ? id.hashCode() : 0;
     }
 }

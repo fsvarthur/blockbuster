@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface CategoriaRepository extends CrudRepository<Categoria, Long> {
     List<Categoria> findByTitulo(String search);
+
+    Categoria getReferenceById(Long id);
 }

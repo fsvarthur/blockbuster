@@ -12,25 +12,13 @@ public class AtualizarForm {
     private String titulo;
 
     @NotNull @NotEmpty
-    private String cor;
+    private String url;
 
-    public String getTitulo() {
-        return titulo;
-    }
 
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
-    }
 
-    public String getCor() {
-        return cor;
-    }
 
-    public void setCor(String cor) {
-        this.cor = cor;
-    }
 
-    public Categoria atualizar(Long id, CategoriaRepository categoriaRepository){
+    public Video atualizar(Long id, CategoriaRepository categoriaRepository){
         Categoria categoria = categoriaRepository.getReferenceById(id);
 
         categoria.setTitulo(this.titulo);

@@ -18,6 +18,7 @@ public class Video {
     private String url;
 
     @OneToOne
+    @JoinColumn(name = "categoriaId", referencedColumnName = "id")
     private Categoria categoria;
 
     public Video() {
@@ -71,12 +72,21 @@ public class Video {
     }
 
     @Override
-    public String toString() {
-        return "Video{" +
-                "titulo='" + titulo + '\'' +
-                ", descricao='" + descricao + '\'' +
-                ", url='" + url + '\'' +
-                ", categoria=" + categoria +
-                '}';
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Video video = (Video) o;
+
+        if (!Objects.equals(id, video.id)) return false;
+        if (!Objects.equals(titulo, video.titulo)) return false;
+        if (!Objects.equals(descricao, video.descricao)) return false;
+        if (!Objects.equals(url, video.url)) return false;
+        return Objects.equals(categoria, video.categoria);
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
     }
 }

@@ -31,7 +31,7 @@ public class CategoriaController {
     @GetMapping
     public List<CategoriaDto> getAllCategoria(String search){
         if(search == null){
-            List<Categoria> categorias = categoriaRepository.findAll();
+            List<Categoria> categorias = (List<Categoria>) categoriaRepository.findAll();
             return CategoriaDto.converter(categorias);
         }else{
             List<Categoria> categorias = categoriaRepository.findByTitulo(search);
@@ -41,7 +41,7 @@ public class CategoriaController {
 
     @GetMapping("/{id}/videos")
     public List<Video> getCategoriaVideo(@PathVariable Long id){
-        return this.categoriaRepository.findById(id).map(this.videoRepository::findByCategoria).get();
+        return (List<Video>) this.categoriaRepository.findById(id).map(this.videoRepository::findByCategoria).get();
     }
 
     @GetMapping("/{id}")
