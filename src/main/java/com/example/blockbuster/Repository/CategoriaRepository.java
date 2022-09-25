@@ -1,12 +1,7 @@
 package com.example.blockbuster.Repository;
 
 import com.example.blockbuster.Model.Categoria;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.List;
-
-public interface CategoriaRepository extends CrudRepository<Categoria, Long> {
-    List<Categoria> findByTitulo(String search);
-
-    Categoria getReferenceById(Long id);
+public interface CategoriaRepository extends JpaRepository<Categoria, Long> {
 }

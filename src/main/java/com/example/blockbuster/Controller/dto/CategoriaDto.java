@@ -1,34 +1,39 @@
 package com.example.blockbuster.Controller.dto;
 
-import com.example.blockbuster.Model.Categoria;
-
-import java.util.List;
-import java.util.stream.Collectors;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 public class CategoriaDto {
-    private Long id;
-    private String titulo;
-    private String cor;
 
-    private CategoriaDto(Categoria categoria){
-        this.id = categoria.getId();
-        this.titulo = categoria.getTitulo();
-        this.cor = categoria.getCor();
-    }
+    private Long id;
+
+    @NotNull @NotEmpty
+    private String titulo;
+
+    @NotNull @NotEmpty
+    private String cor;
 
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getTitulo() {
         return titulo;
     }
 
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
+    }
+
     public String getCor() {
         return cor;
     }
 
-    public static List<CategoriaDto> converter(List<Categoria> categoria){
-        return categoria.stream().map(CategoriaDto::new).collect(Collectors.toList());
+    public void setCor(String cor) {
+        this.cor = cor;
     }
 }

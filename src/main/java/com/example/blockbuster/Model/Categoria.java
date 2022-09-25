@@ -1,59 +1,30 @@
 package com.example.blockbuster.Model;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import java.util.Objects;
+import javax.validation.constraints.NotBlank;
 
 @Entity
+@Getter
+@Setter
 public class Categoria {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "categoria_livre")
+    @SequenceGenerator(name = "categoria_livre", initialValue = 2)
     private Long id;
 
     private String titulo;
-
     private String cor;
 
-    public Long getId() {
-        return id;
+    public Categoria() {
     }
 
-    public void setId(Long id) {
+    public Categoria(Long id, String titulo, String cor) {
         this.id = id;
-    }
-
-    public String getTitulo() {
-        return titulo;
-    }
-
-    public void setTitulo(String titulo) {
         this.titulo = titulo;
-    }
-
-    public String getCor() {
-        return cor;
-    }
-
-    public void setCor(String cor) {
         this.cor = cor;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Categoria categoria = (Categoria) o;
-
-        if (!Objects.equals(id, categoria.id)) return false;
-        if (!Objects.equals(titulo, categoria.titulo)) return false;
-        return Objects.equals(cor, categoria.cor);
-    }
-
-    @Override
-    public int hashCode() {
-        return id != null ? id.hashCode() : 0;
     }
 }
