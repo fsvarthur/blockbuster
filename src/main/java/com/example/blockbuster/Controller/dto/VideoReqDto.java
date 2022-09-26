@@ -3,6 +3,7 @@ package com.example.blockbuster.Controller.dto;
 import com.example.blockbuster.Model.Categoria;
 import com.example.blockbuster.Model.Video;
 import com.example.blockbuster.Repository.CategoriaRepository;
+import lombok.Getter;
 import org.springframework.http.ResponseEntity;
 
 import javax.validation.constraints.NotEmpty;
@@ -10,6 +11,7 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Getter
 public class VideoReqDto {
 
     private static final Long CATEGORIA_LIVRE = 1L;

@@ -4,9 +4,8 @@ import com.example.blockbuster.Controller.dto.VideoReqDto;
 import com.example.blockbuster.Controller.dto.VideoResDto;
 import com.example.blockbuster.Model.Video;
 import com.example.blockbuster.Repository.*;
-import com.example.blockbuster.VideoNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.RequestEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -14,6 +13,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/videos")
@@ -25,18 +25,19 @@ class VideosController {
     @Autowired
     private CategoriaRepository categoriaRepository;
 
-    public VideosController(VideoRepository videoRepository) {
-        this.videoRepository = videoRepository;
-    }
-
     @GetMapping
     public List<VideoResDto> getAllVideos(){
         return VideoResDto.listar(videoRepository.findAll());
     }
 
     @GetMapping("/{id}")
-    public Video getVideoById(@PathVariable Long id){
-        return videoRepository.findById(id).orElseThrow(() -> new VideoNotFoundException(id));
+    public ResponseEntity<VideoResDto> getVideoById(@PathVariable Long id){
+        Optional<Video> video = videoRepository.findById(id);
+        if(video.isPresent()){
+            return new ResponseEntity<>(new VideoResDto(video.get()), HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @PostMapping
@@ -49,22 +50,28 @@ class VideosController {
     }
 
     @PutMapping("/{id}")
-    public Video updateNewVideo(@RequestBody Video newVideo, @PathVariable Long id){
-        return videoRepository.findById(id)
-                .map( video ->{
-                    video.setTitulo(newVideo.getTitulo());
-                    video.setUrl(newVideo.getUrl());
-                    video.setDescricao(newVideo.getDescricao());
-                    return videoRepository.save(video);
-                }).orElseGet(()->{
-                    newVideo.setId(id);
-                    return videoRepository.save(newVideo);
-                });
+    public ResponseEntity<VideoReqDto> updateVideo(@PathVariable Long id,@RequestBody @Valid VideoReqDto newVideo){
+        Optional<Video> video = videoRepository.findById(id);
+        if(video.isPresent()){
+            Video entity = video.get();
+            entity.setDescricao(newVideo.getDescricao());
+            entity.setTitulo(newVideo.getTitulo());
+            entity.setUrl(newVideo.getUrl());
+            videoRepository.save(entity);
+            return new ResponseEntity<>(new VideoReqDto(entity), HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @DeleteMapping("/{id}")
-    public void deleteVideo(@PathVariable Long id){
-        videoRepository.deleteById(id);
+    public ResponseEntity<?> deleteVideo(@PathVariable Long id){
+        Optional<Video> video = videoRepository.findById(id);
+        if(!video.isPresent()){
+            return new ResponseEntity<>(HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
 }

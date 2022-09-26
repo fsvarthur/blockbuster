@@ -1,7 +1,6 @@
 package com.example.blockbuster.Controller;
 
 import com.example.blockbuster.CategoriaNotFoundException;
-import com.example.blockbuster.Controller.dto.CategoriaDto;
 import com.example.blockbuster.Model.Categoria;
 import com.example.blockbuster.Repository.CategoriaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
