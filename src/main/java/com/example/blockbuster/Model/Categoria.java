@@ -4,7 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Getter
@@ -22,8 +23,7 @@ public class Categoria {
     public Categoria() {
     }
 
-    public Categoria(Long id, String titulo, String cor) {
-        this.id = id;
+    public Categoria(String titulo, String cor) {
         this.titulo = titulo;
         this.cor = cor;
     }

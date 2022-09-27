@@ -14,20 +14,22 @@ public class VideoResDto {
     private String descricao;
     private String url;
 
-    private Long categoriaId;
+    private String categoria;
 
-    public VideoResDto(String titulo, String descricao, String url, Long categoriaId) {
+    public VideoResDto(Long id, String titulo, String descricao, String url, String categoria) {
+        this.id = id;
         this.titulo = titulo;
         this.descricao = descricao;
         this.url = url;
-        this.categoriaId = categoriaId;
+        this.categoria = categoria;
     }
 
     public VideoResDto(Video video){
+        this.id = video.getId();
         this.titulo = video.getTitulo();
         this.descricao = video.getDescricao();
         this.url = video.getUrl();
-        this.categoriaId = video.getCategoria().getId();
+        this.categoria = video.getCategoria().getTitulo();
     }
 
     public static List<VideoResDto> listar(List<Video> videos) {

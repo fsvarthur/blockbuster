@@ -40,6 +40,8 @@ class VideosController {
         }
     }
 
+    //to_do Get mapping with search param
+
     @PostMapping
     public ResponseEntity<VideoReqDto> addNewVideo(@RequestBody @Valid VideoReqDto formVideo, UriComponentsBuilder builder) {
         Video video = formVideo.toEntity(categoriaRepository);
@@ -67,7 +69,8 @@ class VideosController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteVideo(@PathVariable Long id){
         Optional<Video> video = videoRepository.findById(id);
-        if(!video.isPresent()){
+        if(video.isPresent()){
+            videoRepository.deleteById(id);
             return new ResponseEntity<>(HttpStatus.OK);
         }else{
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

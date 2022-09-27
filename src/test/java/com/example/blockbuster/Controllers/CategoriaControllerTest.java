@@ -1,38 +1,34 @@
 package com.example.blockbuster.Controllers;
 
-import net.bytebuddy.asm.Advice;
+import com.example.blockbuster.Model.Categoria;
+import com.example.blockbuster.Repository.CategoriaRepository;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
-import org.springframework.test.context.ActiveProfiles;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-
-import java.net.URI;
-
 
 @RunWith(SpringRunner.class)
-@SpringBootTest
-@AutoConfigureMockMvc
-@ActiveProfiles("test")
+@DataJpaTest
 public class CategoriaControllerTest {
 
     @Autowired
-    private MockMvc mockMvc;
+    private CategoriaRepository categoriaRepository;
+
+    @Autowired
+    private TestEntityManager em;
+
+    private static Long ID_CATEGORIA_LIVRE = 1L;
+    private static String TITULO_CATEGORIA = "Categoria Aventura";
+
 
     @Test
-    public void postCategoriaTest() throws Exception {
-        URI uri = new URI("/categoria");
-        String json ="{\"titulo\":\"Adventure\",\"cor\":\"vermelho\"}";
-
-        mockMvc.perform(
-                MockMvcRequestBuilders.post(uri)
-                        .content(json).contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().is(200));
+    public void existeCategoriaLivre(){
+        Categoria categoria = categoriaRepository.getOne(ID_CATEGORIA_LIVRE);
+        Assert.assertNotNull(categoria);
+        Assert.assertTrue(categoria.getTitulo().equals("Livre"));
+        Assert.assertTrue(categoria.getCor().equals("#FF0000"));
     }
 }
