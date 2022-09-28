@@ -8,6 +8,10 @@ import com.example.blockbuster.Model.Video;
 import com.example.blockbuster.Repository.CategoriaRepository;
 import com.example.blockbuster.Repository.VideoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -31,8 +35,17 @@ public class CategoriaController {
     private VideoRepository videosRepository;
 
     @GetMapping
-    public List<CategoriaResDto> getAllCategorias(){
-        return CategoriaResDto.listar(categoriaRepository.findAll());
+    public Page<CategoriaResDto> getAllCategorias(@RequestParam(required = false) String query,
+                                                  @PageableDefault(sort = "titulo",direction = Direction.DESC,
+                                                  page = 0, size = 10) Pageable paginacao){
+
+        if(query==null){
+            Page<Categoria> categorias = categoriaRepository.findAll(paginacao);
+            return CategoriaResDto.converter(categorias);
+        }else{
+            Page<Categoria> categorias = categoriaRepository.findByTitulo(query, paginacao);
+            return CategoriaResDto.converter(categorias);
+        }
     }
 
     @GetMapping("/{id}")

@@ -2,6 +2,8 @@ package com.example.blockbuster.Controller.dto;
 
 import com.example.blockbuster.Model.Video;
 import lombok.Getter;
+import org.springframework.data.domain.Page;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,5 +36,9 @@ public class VideoResDto {
 
     public static List<VideoResDto> listar(List<Video> videos) {
         return videos.stream().map(VideoResDto::new).collect(Collectors.toList());
+    }
+
+    public static Page<VideoResDto> converter(Page<Video> videos){
+        return videos.map(VideoResDto::new);
     }
 }

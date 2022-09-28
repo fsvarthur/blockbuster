@@ -2,6 +2,7 @@ package com.example.blockbuster.Controller.dto;
 
 import com.example.blockbuster.Model.Categoria;
 import lombok.Getter;
+import org.springframework.data.domain.Page;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -32,4 +33,7 @@ public class CategoriaResDto {
         return all.stream().map(CategoriaResDto::new).collect(Collectors.toList());
     }
 
+    public static Page<CategoriaResDto> converter(Page<Categoria> categorias) {
+        return categorias.map(CategoriaResDto::new);
+    }
 }

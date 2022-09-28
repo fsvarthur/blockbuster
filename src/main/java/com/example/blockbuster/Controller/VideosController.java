@@ -5,7 +5,10 @@ import com.example.blockbuster.Controller.dto.VideoResDto;
 import com.example.blockbuster.Model.Video;
 import com.example.blockbuster.Repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,8 +30,16 @@ class VideosController {
     private CategoriaRepository categoriaRepository;
 
     @GetMapping
-    public List<VideoResDto> getAllVideos(){
-        return VideoResDto.listar(videoRepository.findAll());
+    public Page<VideoResDto> getAllVideos(@RequestParam(required = false) String video,
+                                          @PageableDefault(sort="titulo", direction = Direction.DESC,
+                                                  page=0,size =10) Pageable paginacao) {
+        if(video == null){
+            Page<Video> videos = videoRepository.findAll(paginacao);
+            return VideoResDto.converter(videos);
+        }else{
+            Page<Video> videos = videoRepository.findByTitulo(video, paginacao);
+            return VideoResDto.converter(videos);
+        }
     }
 
     @GetMapping("/{id}")
