@@ -5,6 +5,7 @@ import com.example.blockbuster.Controller.dto.VideoResDto;
 import com.example.blockbuster.Model.Video;
 import com.example.blockbuster.Repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -41,6 +42,10 @@ class VideosController {
     }
 
     //to_do Get mapping with search param
+    @GetMapping(params = "titulo")
+    public List<VideoResDto> getVideoByName(@RequestParam(required = true) String query){
+        return VideoResDto.listar(videoRepository.findByTitulo(query));
+    }
 
     @PostMapping
     public ResponseEntity<VideoReqDto> addNewVideo(@RequestBody @Valid VideoReqDto formVideo, UriComponentsBuilder builder) {
