@@ -52,6 +52,12 @@ class VideosController {
         }
     }
 
+    @GetMapping("/free")
+    public List<VideoResDto> getVideosFree(){
+        List<Video> video = videoRepository.findAll();
+        return VideoResDto.listar(video);
+    }
+
     //to_do Get mapping with search param
     @GetMapping(params = "titulo")
     public List<VideoResDto> getVideoByName(@RequestParam(required = true) String query){
