@@ -1,8 +1,14 @@
-package com.example.blockbuster.config.security;
+/*package com.example.blockbuster.config.security;
 
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
+@EnableWebSecurity
+@Configuration
+@Profile("dev")
 public class DevSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
@@ -12,3 +18,4 @@ public class DevSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and().csrf().disable();
     }
 }
+*/

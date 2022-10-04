@@ -1,3 +1,4 @@
+/*
 package com.example.blockbuster.config.security;
 
 import com.example.blockbuster.Repository.UsuarioRepository;
@@ -18,7 +19,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-@EnableWebSecurity
+@EnableWebSecurity*/
+/**
 @Configuration
 @Profile(value={"prod","test"})
 public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
@@ -47,11 +49,10 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers(HttpMethod.GET, "/videos").permitAll()
-                .antMatchers(HttpMethod.GET,"/categorias/").permitAll()
                 .antMatchers(HttpMethod.GET, "/videos/*").permitAll()
                 .antMatchers(HttpMethod.POST,"/auth").permitAll()
-                .antMatchers(HttpMethod.DELETE,"/videos/*").permitAll()
                 .antMatchers(HttpMethod.GET,"/videos/free").permitAll()
+                .antMatchers(HttpMethod.DELETE,"/videos/*").hasRole("MODERADOR")
                 .anyRequest().authenticated()
                 .and().csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -63,4 +64,4 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers("/**.html","/v2/api-docs", "/webjars/**", "/configuration/**", "/swagger-resources/**");
     }
-}
+}*/

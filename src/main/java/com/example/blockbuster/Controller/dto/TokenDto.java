@@ -1,8 +1,10 @@
 package com.example.blockbuster.Controller.dto;
 
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
+@Setter
 public class TokenDto {
 
     private String token;

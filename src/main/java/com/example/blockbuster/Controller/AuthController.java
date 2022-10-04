@@ -30,10 +30,10 @@ public class AuthController {
 
     @PostMapping
     public ResponseEntity<TokenDto> autenticar(@RequestBody @Valid LoginReqDto login){
-        UsernamePasswordAuthenticationToken dadosLogind = login.converter();
+        UsernamePasswordAuthenticationToken dadosLogin = login.converter();
 
         try{
-            Authentication authentication =authManager.authenticate(dadosLogind);
+            Authentication authentication =authManager.authenticate(dadosLogin);
             String token =tokenService.gerarToken(authentication);
             return ResponseEntity.ok(new TokenDto(token, "Bearer"));
         }catch (AuthenticationException e){

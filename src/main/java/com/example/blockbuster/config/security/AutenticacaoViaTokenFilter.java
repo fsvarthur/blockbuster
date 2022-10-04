@@ -3,6 +3,7 @@ package com.example.blockbuster.config.security;
 import com.example.blockbuster.Model.Usuario;
 import com.example.blockbuster.Repository.UsuarioRepository;
 import com.example.blockbuster.Service.TokenService;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -24,6 +25,7 @@ public class AutenticacaoViaTokenFilter extends OncePerRequestFilter {
     }
 
     @Override
+    @Bean
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
         String token = recuperarToken(request);
