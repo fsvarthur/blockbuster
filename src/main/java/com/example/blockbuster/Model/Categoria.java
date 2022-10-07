@@ -11,8 +11,7 @@ import javax.persistence.*;
 public class Categoria {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "categoria_livre")
-    @SequenceGenerator(name = "categoria_livre", initialValue = 2)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private String titulo;
