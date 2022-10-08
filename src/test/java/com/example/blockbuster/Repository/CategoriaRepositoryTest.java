@@ -1,14 +1,11 @@
-package com.example.blockbuster.Controllers;
+package com.example.blockbuster.Repository;
 
 
 import com.example.blockbuster.Model.Categoria;
-import com.example.blockbuster.Repository.CategoriaRepository;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.*;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.ActiveProfiles;
@@ -19,9 +16,8 @@ import java.util.Optional;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
-@AutoConfigureTestDatabase(replace = Replace.NONE)
 @ActiveProfiles("test")
-public class CategoriaControllerTest {
+public class CategoriaRepositoryTest {
 
     @Autowired
     private CategoriaRepository categoriaRepository;
@@ -33,7 +29,7 @@ public class CategoriaControllerTest {
     private static String TITULO_CATEGORIA = "Categoria teste";
 
     //existirCategoriaLivre
-    /*@Test
+    @Test
     public void existirCategoriaLivre(){
         Categoria categoria = this.salvarCategoria();
         categoria.setId(ID_CATEGORIA_LIVRE);
@@ -106,6 +102,6 @@ public class CategoriaControllerTest {
 
         Categoria newCategoria = categoriaRepository.save(categoria);
         return newCategoria;
-    }*/
+    }
 
 }

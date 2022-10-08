@@ -1,17 +1,13 @@
-package com.example.blockbuster.Controllers;
+package com.example.blockbuster.Repository;
 
 import com.example.blockbuster.Model.Categoria;
 import com.example.blockbuster.Model.Video;
-import com.example.blockbuster.Repository.CategoriaRepository;
-import com.example.blockbuster.Repository.VideoRepository;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -21,9 +17,8 @@ import java.util.Optional;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @ActiveProfiles("test")
-public class VideoControllerTest {
+public class VideoRepositoryTest {
 
     @Autowired
     private CategoriaRepository categoriaRepository;
@@ -33,8 +28,6 @@ public class VideoControllerTest {
 
     @Autowired
     private TestEntityManager em;
-
-    private static final String TITULO_VIDEO = "Titulo video teste";
 
     @Test
     public void cadastrarVideo(){
@@ -99,10 +92,10 @@ public class VideoControllerTest {
         Categoria categoria =null;
         Video video = this.salvarVideo(categoria);
 
-        List<Video> videos = videoRepository.findByTitulo(TITULO_VIDEO);
+        List<Video> videos = videoRepository.findByTitulo("titulo video teste");
         Assert.assertNotNull(videos);
         Assert.assertTrue(videos.size()>0);
-        Assert.assertTrue(videos.get(0).getTitulo().equals(TITULO_VIDEO));
+        Assert.assertTrue(videos.get(0).getTitulo().equals("titulo video teste"));
     }
 
     //listarVideo
@@ -134,9 +127,10 @@ public class VideoControllerTest {
         Assert.assertFalse(videoProcurado.isPresent());
 
     }
+
     private Video salvarVideo(Categoria categoria) {
         Video video = new Video();
-        video.setTitulo(TITULO_VIDEO);
+        video.setTitulo("titulo video teste");
         video.setDescricao("Descricao video teste");
         video.setUrl("localhost:8080/1");
         video.setCategoria(categoria);
