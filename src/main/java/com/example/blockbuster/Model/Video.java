@@ -11,7 +11,7 @@ import javax.persistence.*;
 public class Video {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String titulo;
@@ -19,7 +19,7 @@ public class Video {
     private String url;
 
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Categoria categoria;
 
     public Video() {

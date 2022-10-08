@@ -1,16 +1,16 @@
 package com.example.blockbuster.Controllers;
 
+
 import com.example.blockbuster.Model.Categoria;
 import com.example.blockbuster.Repository.CategoriaRepository;
-import com.example.blockbuster.Repository.VideoRepository;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.*;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -19,7 +19,7 @@ import java.util.Optional;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@AutoConfigureTestDatabase(replace = Replace.NONE)
 @ActiveProfiles("test")
 public class CategoriaControllerTest {
 
@@ -33,7 +33,7 @@ public class CategoriaControllerTest {
     private static String TITULO_CATEGORIA = "Categoria teste";
 
     //existirCategoriaLivre
-    @Test
+    /*@Test
     public void existirCategoriaLivre(){
         Categoria categoria = this.salvarCategoria();
         categoria.setId(ID_CATEGORIA_LIVRE);
@@ -106,6 +106,6 @@ public class CategoriaControllerTest {
 
         Categoria newCategoria = categoriaRepository.save(categoria);
         return newCategoria;
-    }
+    }*/
 
 }
