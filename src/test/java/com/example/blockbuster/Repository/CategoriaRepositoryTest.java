@@ -65,7 +65,7 @@ public class CategoriaRepositoryTest {
         Long idCategoria = categoria.getId();
         Categoria categoriaConsultada = categoriaRepository.getReferenceById(idCategoria);
         Assert.assertNotNull(categoriaConsultada.getId());
-        Assert.assertTrue(categoriaConsultada.getTitulo() == TITULO_CATEGORIA);
+        Assert.assertTrue(categoriaConsultada.getTitulo() == "Adventure");
 
     }
 

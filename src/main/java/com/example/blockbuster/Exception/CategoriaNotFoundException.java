@@ -1,4 +1,4 @@
-package com.example.blockbuster;
+package com.example.blockbuster.Exception;
 
 public class CategoriaNotFoundException extends RuntimeException{
 

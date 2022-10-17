@@ -2,6 +2,7 @@ package com.example.blockbuster.Controller;
 
 import com.example.blockbuster.Controller.dto.VideoReqDto;
 import com.example.blockbuster.Controller.dto.VideoResDto;
+import com.example.blockbuster.Exception.VideoNotFoundException;
 import com.example.blockbuster.Model.Video;
 import com.example.blockbuster.Repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
@@ -34,8 +36,12 @@ class VideosController {
                                           @PageableDefault(sort="titulo", direction = Direction.DESC,
                                                   page=0,size =10) Pageable paginacao) {
         if(video == null){
-            Page<Video> videos = videoRepository.findAll(paginacao);
-            return VideoResDto.converter(videos);
+            try{
+                Page<Video> videos = videoRepository.findAll(paginacao);
+                return VideoResDto.converter(videos);
+            } catch (VideoNotFoundException e) {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Video not found");
+            }
         }else{
             Page<Video> videos = videoRepository.findByTitulo(video, paginacao);
             return VideoResDto.converter(videos);

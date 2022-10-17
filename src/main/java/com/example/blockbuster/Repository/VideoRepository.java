@@ -12,6 +12,8 @@ public interface VideoRepository extends JpaRepository<Video, Long> {
     //Make the query automatic
     List<Video> findByCategoriaId(Long id);
 
+    Page<Video> findAll(Pageable pageable);
+
     List<Video> findByTitulo(String query);
 
     Page<Video> findByTitulo(String query, Pageable paginacao);
