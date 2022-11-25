@@ -17,8 +17,6 @@ public class Video {
     private String titulo;
     private String descricao;
     private String url;
-
-
     @ManyToOne(fetch = FetchType.LAZY)
     private Categoria categoria;
 

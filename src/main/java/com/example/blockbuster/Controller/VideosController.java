@@ -5,6 +5,8 @@ import com.example.blockbuster.Controller.dto.VideoResDto;
 import com.example.blockbuster.Exception.VideoNotFoundException;
 import com.example.blockbuster.Model.Video;
 import com.example.blockbuster.Repository.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,10 +23,11 @@ import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
+
 @RestController
 @RequestMapping("/videos")
 class VideosController {
-
+    private static final Logger LOG = LoggerFactory.getLogger(VideosController.class);
     @Autowired
     private VideoRepository videoRepository;
 
@@ -35,6 +38,7 @@ class VideosController {
     public Page<VideoResDto> getAllVideos(@RequestParam(required = false) String video,
                                           @PageableDefault(sort="titulo", direction = Direction.DESC,
                                                   page=0,size =10) Pageable paginacao) {
+
         if(video == null){
             try{
                 Page<Video> videos = videoRepository.findAll(paginacao);
@@ -50,6 +54,7 @@ class VideosController {
 
     @GetMapping("/{id}")
     public ResponseEntity<VideoResDto> getVideoById(@PathVariable Long id){
+        LOG.debug("/video returned the found video for videoId={}",id);
         Optional<Video> video = videoRepository.findById(id);
         if(video.isPresent()){
             return new ResponseEntity<>(new VideoResDto(video.get()), HttpStatus.OK);
