@@ -1,6 +1,4 @@
 FROM amazoncorretto:11-alpine3.16-jdk
-RUN addgroup -S spring && adduser -S spring -G spring
-USER spring:spring
-ARG JAR_FILE=target/*.jar
-COPY ${JAR_FILE} app.jar
-ENTRYPOINT ["java","-jar","/app.jar"]
+EXPOSE 8080
+ADD target/blockbuster.jar blockbuster.jar
+ENTRYPOINT ["java","-jar","blockbuster.jar"]

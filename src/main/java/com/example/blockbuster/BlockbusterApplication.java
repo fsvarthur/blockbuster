@@ -16,15 +16,4 @@ public class BlockbusterApplication {
 		SpringApplication.run(BlockbusterApplication.class, args);
 	}
 
-	@Bean
-	CommandLineRunner init(VideoRepository videoRepository){
-		return args -> {
-			Stream.of("Attack","My Hero","Classroom","HxH","Chainsaw","SPY").forEach(name ->{
-				Video video = new Video(name, "desc","desc");
-				videoRepository.save(video);
-			});
-			videoRepository.findAll().forEach(System.out::println);
-		};
-	}
-
 }
