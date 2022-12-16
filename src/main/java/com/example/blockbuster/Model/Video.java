@@ -8,16 +8,23 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Setter
-public class Video {
+public class Video extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "titulo", nullable = false)
     private String titulo;
+
+    @Column(name = "descricao",nullable = false)
     private String descricao;
+
+    @Column(name = "url", nullable = false)
     private String url;
-    @ManyToOne(fetch = FetchType.LAZY)
+
+    @ManyToOne
+    @JoinColumn(name = "categoria_id")
     private Categoria categoria;
 
     public Video() {
