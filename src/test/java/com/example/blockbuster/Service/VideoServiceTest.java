@@ -1,7 +1,9 @@
-package com.example.blockbuster.Repository;
+package com.example.blockbuster.Service;
 
 import com.example.blockbuster.Model.Categoria;
 import com.example.blockbuster.Model.Video;
+import com.example.blockbuster.Repository.CategoriaRepository;
+import com.example.blockbuster.Repository.VideoRepository;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,7 +20,7 @@ import java.util.Optional;
 @RunWith(SpringRunner.class)
 @DataJpaTest
 @ActiveProfiles("test")
-public class VideoRepositoryTest {
+public class VideoServiceTest {
 
     @Autowired
     private CategoriaRepository categoriaRepository;

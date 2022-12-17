@@ -9,7 +9,8 @@ import java.io.Serializable;
  */
 @Data
 public class CategoriaDto implements Serializable {
-    private final Long id;
-    private final String titulo;
-    private final String cor;
+    private Long id;
+    private String titulo;
+    private String cor;
+
 }
