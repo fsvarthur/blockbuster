@@ -16,7 +16,6 @@ import java.util.Optional;
 @Service
 public class CategoriaService {
     private static final Logger log = LoggerFactory.getLogger(CategoriaService.class);
-
     private CategoriaRepository categoriaRepository;
     private VideoRepository videoRepository;
 
@@ -25,12 +24,8 @@ public class CategoriaService {
         this.videoRepository = videoRepository;
     }
 
-    public Page<Categoria> findByTitulo(String query, Pageable paginacao){
-        return null;
-    }
-
-    public Iterable<Categoria> findAll(Pageable paginacao) {
-        return categoriaRepository.findAll();
+    public List<Categoria> findAll() {
+        return (List<Categoria>) categoriaRepository.findAll();
     }
 
     public Optional<Categoria> findById(String id) {
@@ -47,6 +42,10 @@ public class CategoriaService {
 
     private Categoria toEntity(CategoriaDto categoriaDto){
         Categoria categoria = new Categoria();
-        return categoria.setTitulo(categoriaDto.getTitulo()).setCor(categoriaDto.getCor());
+        categoria.setCor(categoriaDto.getCor());
+        categoria.setTitulo(categoriaDto.getTitulo());
+        return categoria;
     }
+
+
 }

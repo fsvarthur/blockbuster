@@ -1,6 +1,5 @@
 package com.example.blockbuster.Controller.dto;
 
-import com.example.blockbuster.Model.Categoria;
 import com.example.blockbuster.Model.Video;
 import lombok.Data;
 
@@ -16,5 +15,4 @@ public class VideoDto implements Serializable {
     private final String descricao;
     private final String url;
     private final CategoriaDto categoria;
-
 }

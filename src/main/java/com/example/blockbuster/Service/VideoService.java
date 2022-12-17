@@ -1,12 +1,11 @@
 package com.example.blockbuster.Service;
 
 import com.example.blockbuster.Model.Video;
+import com.example.blockbuster.Controller.dto.VideoDto;
 import com.example.blockbuster.Repository.CategoriaRepository;
 import com.example.blockbuster.Repository.VideoRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,7 +14,7 @@ import java.util.Optional;
 @Service
 public class VideoService {
 
-    private static final Logger log = LoggerFactory.getLogger(VideoService.class);
+    private static final Logger LOG = LoggerFactory.getLogger(VideoService.class);
 
     private CategoriaRepository categoriaRepository;
     private VideoRepository videoRepository;
@@ -25,25 +24,30 @@ public class VideoService {
         this.videoRepository = videoRepository;
     }
 
-    public List<Video> findByCategoriaId(Long id) {
-        return null;
+    public List<Video> findAll(){return (List<Video>) videoRepository.findAll();}
+
+
+    public Optional<Video> findById(String id) {
+        return videoRepository.findById(Long.valueOf(id));
     }
 
-    List<Video> findByCategoriaId(Long id){}
-
-    public Page<Video> findAll(){}
-
-    public List<Video> findByTitulo(String query){}
-
-    public Page<Video> findByTitulo(String query, Pageable paginacao){}
-
-    public Optional<Video> findById(Long id) {
+    public Optional<Video> createVideo(VideoDto videoDto) {
+        return Optional.of(videoRepository.save(toEntity(videoDto)));
     }
 
-    public void save(Video video) {
+    public void deleteById(String id) {
+        categoriaRepository.deleteById(Long.valueOf(id));
     }
 
-    public void deleteById(Long id) {
+    public List<Video> getVideosByCustomerId(String categoriaId) {
+        return videoRepository.findByCategoriaId(Long.valueOf(categoriaId));
+    }
 
+    private Video toEntity(VideoDto videoDto){
+        Video video = new Video();
+        video.setTitulo(videoDto.getTitulo());
+        video.setUrl(videoDto.getUrl());
+        video.setDescricao(videoDto.getDescricao());
+        return video;
     }
 }
