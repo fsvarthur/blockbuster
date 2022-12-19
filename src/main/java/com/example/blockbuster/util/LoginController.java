@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class LoginController {
-    Logger log = LoggerFactory.getLogger(LoginController.class);
+    private final static Logger log = LoggerFactory.getLogger(LoginController.class);
 
     @GetMapping("/login")
     public String login(){

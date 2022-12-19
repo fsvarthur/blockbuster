@@ -2,7 +2,6 @@ package com.example.blockbuster.Config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.security.config.Customizer;
@@ -19,7 +18,7 @@ import javax.sql.DataSource;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfiguration {
+public class SecurityConfig {
 
     @Bean
     DataSource dataSource(){
@@ -33,7 +32,7 @@ public class SecurityConfiguration {
     UserDetailsManager users(DataSource dataSource){
         UserDetails admin  = User.builder()
                 .username("admin")
-                .password("{bcrypt}$2a$10$GRLdNijSQMUvl/au9ofL.eDwmoohzzS7.rmNSJZ.0FxO/BTk76klW")
+                .password("123456789")
                 .roles("USER","ADMIN")
                 .build();
         JdbcUserDetailsManager users = new JdbcUserDetailsManager(dataSource);

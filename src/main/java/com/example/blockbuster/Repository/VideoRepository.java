@@ -10,10 +10,10 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface VideoRepository extends CrudRepository<Video, Long> {
+public interface VideoRepository extends JpaRepository<Video, Long> {
 
-    @Query("select o from Video o join o.categoria u where u.id = :id")
-    List<Video> findByCategoriaId(@Param("categoria_id") Long id);
+    /*@Query("select o from Video o join o.categoria u where u.id = :id")
+    List<Video> findByCategoriaId(@Param("categoria_id") Long id);*/
 
 
 }

@@ -13,39 +13,17 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-@Service
-public class CategoriaService {
-    private static final Logger log = LoggerFactory.getLogger(CategoriaService.class);
-    private CategoriaRepository categoriaRepository;
-    private VideoRepository videoRepository;
+public interface CategoriaService {
 
-    public CategoriaService(CategoriaRepository categoriaRepository, VideoRepository videoRepository) {
-        this.categoriaRepository = categoriaRepository;
-        this.videoRepository = videoRepository;
-    }
 
-    public List<Categoria> findAll() {
-        return (List<Categoria>) categoriaRepository.findAll();
-    }
+    public List<Categoria> findAll();
 
-    public Optional<Categoria> findById(String id) {
-        return categoriaRepository.findById(Long.valueOf(id));
-    }
+    public Optional<Categoria> findById(String id);
 
-    public Optional<Categoria> createCategoria(CategoriaDto catDto) {
-        return Optional.of(categoriaRepository.save(toEntity(catDto)));
-    }
+    public Optional<Categoria> createCategoria(CategoriaDto catDto) ;
 
-    public void deleteCategoriaById(String id) {
-        categoriaRepository.deleteById(Long.valueOf(id));
-    }
+    public void deleteCategoriaById(String id) ;
 
-    private Categoria toEntity(CategoriaDto categoriaDto){
-        Categoria categoria = new Categoria();
-        categoria.setCor(categoriaDto.getCor());
-        categoria.setTitulo(categoriaDto.getTitulo());
-        return categoria;
-    }
 
 
 }

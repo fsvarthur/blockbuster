@@ -14,7 +14,7 @@ import java.util.List;
 @Getter
 @Setter
 @ToString(onlyExplicitlyIncluded = true)
-public class Categoria extends BaseEntity {
+public class Categoria {
 
     @ToString.Include
     @Id

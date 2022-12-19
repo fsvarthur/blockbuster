@@ -8,7 +8,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Setter
-public class Video extends BaseEntity {
+public class Video {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

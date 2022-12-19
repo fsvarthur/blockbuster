@@ -65,9 +65,9 @@ public class CategoriaController {
         return accepted().build();
     }
 
-    @GetMapping("/{id}/videos")
+    /*@GetMapping("/{id}/videos")
     public ResponseEntity<List<Video>> getVideosByCategoriaId(@NotNull @Valid String categoriaId){
         return ok(videoService.getVideosByCustomerId(categoriaId));
-    }
+    }*/
 
 }

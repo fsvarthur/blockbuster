@@ -45,7 +45,7 @@ public class CategoriaServiceTest {
 
     @Test
     public void convertModelToEntity(){
-        CategoriaService srvc = new CategoriaService(categoriaRepository, videoRepository);
+        CategoriaService srvc = new CategoriaServiceImpl(categoriaRepository, videoRepository);
         Categoria cat = ReflectionTestUtils.invokeMethod(srvc, "toEntity", categoriaDto);
         then(cat).as("Check the nullity").isNotNull();
         then(cat.getCor()).as("Check the equality of cor").isEqualTo(categoria.getCor());
