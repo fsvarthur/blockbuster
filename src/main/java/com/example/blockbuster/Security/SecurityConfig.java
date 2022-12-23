@@ -1,4 +1,4 @@
-package com.example.blockbuster.Config;
+package com.example.blockbuster.Security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -32,7 +32,7 @@ public class SecurityConfig {
     UserDetailsManager users(DataSource dataSource){
         UserDetails admin  = User.builder()
                 .username("admin")
-                .password("123456789")
+                .password("{bcrypt}123456789")
                 .roles("USER","ADMIN")
                 .build();
         JdbcUserDetailsManager users = new JdbcUserDetailsManager(dataSource);

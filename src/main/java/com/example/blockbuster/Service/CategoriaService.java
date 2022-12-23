@@ -16,13 +16,14 @@ import java.util.Optional;
 public interface CategoriaService {
 
 
-    public List<Categoria> findAll();
+    public Iterable<Categoria> findAll();
 
     public Optional<Categoria> findById(String id);
 
     public Optional<Categoria> createCategoria(CategoriaDto catDto) ;
 
     public void deleteCategoriaById(String id) ;
+    public void updateCategoria(String id, CategoriaDto categoriaDto);
 
 
 

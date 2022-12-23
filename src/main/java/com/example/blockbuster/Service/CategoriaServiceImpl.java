@@ -1,11 +1,13 @@
 package com.example.blockbuster.Service;
 
 import com.example.blockbuster.Controller.dto.CategoriaDto;
+import com.example.blockbuster.Exception.CategoriaNotFoundException;
 import com.example.blockbuster.Model.Categoria;
 import com.example.blockbuster.Repository.CategoriaRepository;
 import com.example.blockbuster.Repository.VideoRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,16 +25,22 @@ public class CategoriaServiceImpl implements CategoriaService{
         this.videoRepository = videoRepository;
     }
 
-    public List<Categoria> findAll() {
+    public Iterable<Categoria> findAll() {
         return (List<Categoria>) categoriaRepository.findAll();
     }
 
     public Optional<Categoria> findById(String id) {
-        return categoriaRepository.findById(Long.valueOf(id));
+        return Optional.ofNullable(categoriaRepository.findById(Long.valueOf(id)).orElseThrow(() -> new CategoriaNotFoundException(
+                "Categoria by id" + id + " was not found"
+        )));
     }
 
     public Optional<Categoria> createCategoria(CategoriaDto catDto) {
         return Optional.of(categoriaRepository.save(toEntity(catDto)));
+    }
+
+    public void updateCategoria(String id, CategoriaDto categoriaDto){
+        categoriaRepository.save(toEntity(categoriaDto));
     }
 
     public void deleteCategoriaById(String id) {
@@ -45,4 +53,6 @@ public class CategoriaServiceImpl implements CategoriaService{
         categoria.setTitulo(categoriaDto.getTitulo());
         return categoria;
     }
+
+
 }
