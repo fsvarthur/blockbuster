@@ -10,9 +10,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest
 class BlockbusterApplicationTests {
 
-	@Test
-	void contextLoads() {
-		Assert.assertTrue(true);
-	}
+    @Test
+    void contextLoads() {
+        Assert.assertTrue(true);
+    }
 
 }

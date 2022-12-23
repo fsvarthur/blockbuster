@@ -1,7 +1,7 @@
 package com.example.blockbuster.Controller;
 
-import com.example.blockbuster.Model.Video;
 import com.example.blockbuster.Controller.dto.VideoDto;
+import com.example.blockbuster.Model.Video;
 import com.example.blockbuster.Service.CategoriaService;
 import com.example.blockbuster.Service.VideoService;
 import org.slf4j.Logger;
@@ -35,8 +35,8 @@ class VideosController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Video> getVideoById(@Valid String id){
-        LOG.debug("/video returned the found video for videoId={}",id);
+    public ResponseEntity<Video> getVideoById(@Valid String id) {
+        LOG.debug("/video returned the found video for videoId={}", id);
         return videoService.findById(id).map(ResponseEntity::ok).orElse(notFound().build());
     }
 
@@ -59,18 +59,18 @@ class VideosController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<VideoDto> updateVideo(String id,@RequestBody @Valid VideoDto newVideo){
+    public ResponseEntity<VideoDto> updateVideo(String id, @RequestBody @Valid VideoDto newVideo) {
         Optional<Video> video = videoService.findById(id);
-        if(video.isPresent()){
+        if (video.isPresent()) {
             videoService.createVideo(newVideo);
             return new ResponseEntity<>(HttpStatus.OK);
-        }else{
+        } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteVideo(String id){
+    public ResponseEntity<Void> deleteVideo(String id) {
         videoService.deleteById(id);
         return accepted().build();
     }

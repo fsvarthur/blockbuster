@@ -10,46 +10,26 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 import javax.sql.DataSource;
 
+import static org.springframework.security.config.Customizer.withDefaults;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
     @Bean
-    DataSource dataSource(){
-        return new EmbeddedDatabaseBuilder()
-                .setType(EmbeddedDatabaseType.H2)
-                .addScript(JdbcDaoImpl.DEFAULT_USER_SCHEMA_DDL_LOCATION)
-                .build();
-    }
-
-    @Bean
-    UserDetailsManager users(DataSource dataSource){
-        UserDetails admin  = User.builder()
-                .username("admin")
-                .password("{bcrypt}123456789")
-                .roles("USER","ADMIN")
-                .build();
-        JdbcUserDetailsManager users = new JdbcUserDetailsManager(dataSource);
-        users.createUser(admin);
-        return  users;
-    }
-
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.authorizeRequests((authorize) -> authorize.anyRequest().authenticated())
-                .formLogin(form -> form.
-                loginPage("/login")
-                .permitAll())
-                .sessionManagement(session -> session
-                        .invalidSessionUrl("/localhost.html"))
-                .httpBasic(Customizer.withDefaults());
-
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
+        http.authorizeHttpRequests((authorize)-> authorize
+                .anyRequest().authenticated())
+                .httpBasic(withDefaults())
+                .formLogin(withDefaults());
         return http.build();
     }
+
 }

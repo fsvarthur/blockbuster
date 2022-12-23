@@ -19,17 +19,10 @@ import static com.example.blockbuster.Security.SecurityConstants.ENCODER_ID;
 public class AppConfig {
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
-        Map<String, PasswordEncoder> encoders = Map.of(ENCODER_ID, new BCryptPasswordEncoder(),
-                "pbk", new Pbkdf2PasswordEncoder(), "scrypt", new SCryptPasswordEncoder());
-        return new DelegatingPasswordEncoder(ENCODER_ID, encoders);
-    }
-
-    @Bean
-    public ObjectMapper objectMapper(){
+    public ObjectMapper objectMapper() {
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new JavaTimeModule());
         mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
-        return  mapper;
+        return mapper;
     }
 }

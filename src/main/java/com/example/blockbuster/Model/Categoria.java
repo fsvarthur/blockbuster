@@ -1,33 +1,46 @@
 package com.example.blockbuster.Model;
 
 import lombok.*;
-import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.CreatedDate;
+import org.hibernate.Hibernate;
 
 import javax.persistence.*;
-import java.io.Serializable;
-import java.util.List;
+import javax.validation.constraints.NotNull;
+import java.util.Objects;
 
+//@RedisHash("Categoria")
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Getter
 @Setter
-@ToString(onlyExplicitlyIncluded = true)
+@ToString
 public class Categoria {
 
     @ToString.Include
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(nullable = false)
+    @Column(nullable = false, updatable = false)
     private Long id;
 
     @ToString.Include
     @Column(name = "titulo", nullable = false)
+    @NotNull
     private String titulo;
 
     @ToString.Include
     @Column(name = "cor", nullable = false)
     private String cor;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        Categoria categoria = (Categoria) o;
+        return id != null && Objects.equals(id, categoria.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }

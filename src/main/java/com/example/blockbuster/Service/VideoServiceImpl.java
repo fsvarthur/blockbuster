@@ -24,7 +24,9 @@ public class VideoServiceImpl implements VideoService {
         this.videoRepository = videoRepository;
     }
 
-    public List<Video> findAll(){return (List<Video>) videoRepository.findAll();}
+    public List<Video> findAll() {
+        return (List<Video>) videoRepository.findAll();
+    }
 
 
     public Optional<Video> findById(String id) {
@@ -43,7 +45,7 @@ public class VideoServiceImpl implements VideoService {
         return videoRepository.findByCategoriaId(Long.valueOf(categoriaId));
     }*/
 
-    private Video toEntity(VideoDto videoDto){
+    private Video toEntity(VideoDto videoDto) {
         Video video = new Video();
         video.setTitulo(videoDto.getTitulo());
         video.setUrl(videoDto.getUrl());

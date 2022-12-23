@@ -19,20 +19,17 @@ import static org.assertj.core.api.BDDAssertions.then;
 public class CategoriaServiceTest {
     private static Categoria categoria;
     private static CategoriaDto categoriaDto;
-
+    private static String ID_CATEGORIA = "1";
+    private static String TITULO_CATEGORIA = "Categoria teste";
     @Mock
     private CategoriaRepository categoriaRepository;
     @Mock
     private VideoRepository videoRepository;
-
     @InjectMocks
     private CategoriaService categoriaService;
 
-    private static String ID_CATEGORIA = "1";
-    private static String TITULO_CATEGORIA = "Categoria teste";
-
     @BeforeAll
-    public static void setup(){
+    public static void setup() {
         categoria = new Categoria();
         categoria.setTitulo(TITULO_CATEGORIA);
         categoria.setId(Long.valueOf(ID_CATEGORIA));
@@ -44,7 +41,7 @@ public class CategoriaServiceTest {
     }
 
     @Test
-    public void convertModelToEntity(){
+    public void convertModelToEntity() {
         CategoriaService srvc = new CategoriaServiceImpl(categoriaRepository, videoRepository);
         Categoria cat = ReflectionTestUtils.invokeMethod(srvc, "toEntity", categoriaDto);
         then(cat).as("Check the nullity").isNotNull();
