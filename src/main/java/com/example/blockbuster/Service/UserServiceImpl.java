@@ -5,7 +5,6 @@ import com.example.blockbuster.Exception.BadRequestException;
 import com.example.blockbuster.Exception.NotFoundException;
 import com.example.blockbuster.Model.User;
 import com.example.blockbuster.Repository.UserRepository;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;

@@ -31,12 +31,13 @@ class VideosController {
 
     @GetMapping
     public ResponseEntity<List<Video>> getAllVideos() {
+        LOG.debug("Returned all videos");
         return ok(videoService.findAll());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Video> getVideoById(@Valid String id) {
-        LOG.debug("/video returned the found video for videoId={}", id);
+        LOG.debug("Returned the found video for videoId={}", id);
         return videoService.findById(id).map(ResponseEntity::ok).orElse(notFound().build());
     }
 
@@ -55,6 +56,7 @@ class VideosController {
 
     @PostMapping
     public ResponseEntity<Video> addNewVideo(@RequestBody @Valid VideoDto videoDto) {
+        LOG.debug("Created video successfully added");
         return status(HttpStatus.CREATED).body(videoService.createVideo(videoDto).get());
     }
 
@@ -62,15 +64,18 @@ class VideosController {
     public ResponseEntity<VideoDto> updateVideo(String id, @RequestBody @Valid VideoDto newVideo) {
         Optional<Video> video = videoService.findById(id);
         if (video.isPresent()) {
+            LOG.debug("Updated the video with id={}",id);
             videoService.createVideo(newVideo);
             return new ResponseEntity<>(HttpStatus.OK);
         } else {
+            LOG.debug("Not found video to update with id={}",id);
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteVideo(String id) {
+        LOG.debug("Deleted video with id={}", id);
         videoService.deleteById(id);
         return accepted().build();
     }

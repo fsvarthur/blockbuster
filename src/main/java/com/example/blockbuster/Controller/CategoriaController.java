@@ -31,16 +31,19 @@ public class CategoriaController {
 
     @GetMapping("/all")
     public ResponseEntity<Iterable<Categoria>> getAllCategorias() {
+        log.debug("Returned all categorias");
         return ok(categoriaService.findAll());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Categoria> getCategoriaById(@Valid String id) {
+        log.debug("Returned categoria with id={}",id);
         return categoriaService.findById(id).map(ResponseEntity::ok).orElse(notFound().build());
     }
 
     @PostMapping
     public ResponseEntity<Categoria> createCategoria(@Valid @RequestBody CategoriaDto categoriaDto) {
+        log.debug("Created categoria with id={}",categoriaDto.getId());
         return status(HttpStatus.CREATED).body(categoriaService.createCategoria(categoriaDto).get());
     }
 
@@ -49,15 +52,18 @@ public class CategoriaController {
                                                   String id) {
         Optional<Categoria> categoria = categoriaService.findById(id);
         if (categoria.isPresent()) {
+            log.debug("Updated categoria with id={}", id);
             categoriaService.createCategoria(categoriaDto);
             return new ResponseEntity<>(HttpStatus.OK);
         } else {
+            log.debug("Not found Categoria with id={}",id);
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCategoria(String id) {
+        log.debug("Deleted categoria with id={}", id);
         categoriaService.deleteCategoriaById(id);
         return accepted().build();
     }

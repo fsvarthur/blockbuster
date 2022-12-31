@@ -4,7 +4,6 @@ import com.example.blockbuster.Controller.dto.CategoriaDto;
 import com.example.blockbuster.Exception.NotFoundException;
 import com.example.blockbuster.Model.Categoria;
 import com.example.blockbuster.Repository.CategoriaRepository;
-import com.example.blockbuster.Repository.VideoRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -17,11 +16,11 @@ public class CategoriaServiceImpl implements CategoriaService {
 
     private static final Logger log = LoggerFactory.getLogger(CategoriaService.class);
     private CategoriaRepository categoriaRepository;
-    private VideoRepository videoRepository;
+    //private VideoRepository videoRepository;
 
-    public CategoriaServiceImpl(CategoriaRepository categoriaRepository, VideoRepository videoRepository) {
+    public CategoriaServiceImpl(CategoriaRepository categoriaRepository) {
         this.categoriaRepository = categoriaRepository;
-        this.videoRepository = videoRepository;
+        //this.videoRepository = videoRepository;
     }
 
     public Iterable<Categoria> findAll() {

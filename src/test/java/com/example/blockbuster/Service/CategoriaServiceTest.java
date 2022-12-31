@@ -4,20 +4,41 @@ package com.example.blockbuster.Service;
 import com.example.blockbuster.Controller.dto.CategoriaDto;
 import com.example.blockbuster.Model.Categoria;
 import com.example.blockbuster.Repository.CategoriaRepository;
-import com.example.blockbuster.Repository.VideoRepository;
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.test.util.ReflectionTestUtils;
+import org.junit.jupiter.api.BeforeEach;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.api.Assertions.assertThat;
 
-@ExtendWith(MockitoExtension.class)
+@DataJpaTest
 public class CategoriaServiceTest {
-    private static Categoria categoria;
+    @Autowired
+    CategoriaRepository categoriaRepository;
+    CategoriaServiceImpl categoriaService;
+
+    @BeforeEach
+    public void setup(){
+        categoriaService = new CategoriaServiceImpl(categoriaRepository);
+    }
+
+    @Test
+    public void shouldReturnAllCategorias(){
+        categoriaService = new CategoriaServiceImpl(categoriaRepository);
+        Categoria categoria=new Categoria();
+        categoria.setTitulo("Adventure");
+        categoria.setCor("#451525");
+        CategoriaDto categoriaDto = new CategoriaDto();
+        categoriaDto.setTitulo(categoria.getTitulo());
+        categoriaDto.setCor(categoria.getCor());
+        categoriaService.createCategoria(categoriaDto);
+        Iterable<Categoria> categoriaList = categoriaService.findAll();
+        Categoria savedCat= categoriaList.iterator().next();
+        assertThat(savedCat).isNotNull();
+    }
+
+
+    /*private static Categoria categoria;
     private static CategoriaDto categoriaDto;
     private static String ID_CATEGORIA = "1";
     private static String TITULO_CATEGORIA = "Categoria teste";
@@ -40,6 +61,7 @@ public class CategoriaServiceTest {
         categoriaDto.setId(categoria.getId());
     }
 
+    @Ignore
     @Test
     public void convertModelToEntity() {
         CategoriaService srvc = new CategoriaServiceImpl(categoriaRepository, videoRepository);
@@ -48,7 +70,7 @@ public class CategoriaServiceTest {
         then(cat.getCor()).as("Check the equality of cor").isEqualTo(categoria.getCor());
         then(cat.getTitulo()).as("Check the equality of titulo").isEqualTo(categoria.getTitulo());
         then(cat.getId()).as("Check the equality of id").isEqualTo(categoria.getId());
-    }
+    }*/
 
 
 }
