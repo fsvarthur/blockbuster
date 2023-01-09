@@ -1,14 +1,27 @@
 package com.example.blockbuster.Controller;
 
 
+import com.example.blockbuster.Controller.dto.CategoriaDto;
+import com.example.blockbuster.Model.Categoria;
 import com.example.blockbuster.Service.CategoriaService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.util.Optional;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(CategoriaController.class)
@@ -19,18 +32,46 @@ public class CategoriaControllerTest {
 
     @MockBean
     private CategoriaService categoriaService;
+    ObjectMapper objectMapper = new ObjectMapper();
 
     @Test
-    public void getCategoria_shouldReturnJsonArray() throws Exception{
-        /*
-        * Message firstMessage = new Message("First Message");
-            List<Message> allMessages = Arrays.asList(firstMessage);
-            when(service.getMessages()).thenReturn(allMessages);
-            mvc.perform(get("/api/messages").contentType(MediaType.
-            APPLICATION_JSON))
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$", hasSize(1)))
-            .andExpect(jsonPath("$[0].text", is(firstMessage.getText())));
-        * */
+    public void should_return_created_categoria() throws Exception{
+        CategoriaDto categoriaDto = new CategoriaDto();
+        categoriaDto.setTitulo("free");
+        categoriaDto.setCor("#154515");
+        categoriaDto.setId(1L);
+
+        Categoria categoria = new Categoria();
+        categoria.setTitulo(categoriaDto.getTitulo());
+        categoria.setCor(categoriaDto.getCor());
+        categoria.setId(categoriaDto.getId());
+
+        when(categoriaService.createCategoria(any(CategoriaDto.class))).thenReturn(Optional.of(categoria));
+
+        mockMvc.perform(post("/categorias/v1/categorias")
+                .content(objectMapper.writeValueAsString(categoriaDto))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.titulo").value(categoriaDto.getTitulo()));
+    }
+
+
+    @Test
+    public void should_get_created_categoria() throws Exception{
+        CategoriaDto categoriaDto = new CategoriaDto();
+        categoriaDto.setId(1L);
+        categoriaDto.setTitulo("free");
+
+        Categoria categoria = new Categoria();
+        categoria.setId(categoriaDto.getId());
+        categoria.setTitulo(categoriaDto.getTitulo());
+
+        when(categoriaService.createCategoria(any(CategoriaDto.class))).thenReturn(Optional.of(categoria));
+
+        mockMvc.perform(get("/categorias/v1/categorias/1")
+                .content(objectMapper.writeValueAsString(categoriaDto))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.titulo").value(categoriaDto.getTitulo()));
     }
 }

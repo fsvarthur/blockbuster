@@ -15,18 +15,18 @@ import java.util.Optional;
 
 import static org.springframework.http.ResponseEntity.*;
 
-@CrossOrigin(allowedHeaders = "Content-Type")
+//@CrossOrigin(allowedHeaders = "Content-Type")
 @RestController
 @RequestMapping("/categorias/v1/categorias")
 public class CategoriaController {
     private static final Logger log = LoggerFactory.getLogger(CategoriaController.class);
 
     private CategoriaService categoriaService;
-    private VideoService videoService;
+    //private VideoService videoService;
 
-    public CategoriaController(CategoriaService categoriaService, VideoService videoService) {
+    public CategoriaController(CategoriaService categoriaService) {
         this.categoriaService = categoriaService;
-        this.videoService = videoService;
+        //this.videoService = videoService;
     }
 
     @GetMapping("/all")
@@ -43,8 +43,14 @@ public class CategoriaController {
 
     @PostMapping
     public ResponseEntity<Categoria> createCategoria(@Valid @RequestBody CategoriaDto categoriaDto) {
-        log.debug("Created categoria with id={}",categoriaDto.getId());
-        return status(HttpStatus.CREATED).body(categoriaService.createCategoria(categoriaDto).get());
+        Optional<Categoria> categoria = categoriaService.createCategoria(categoriaDto);
+        if(categoria.isPresent()){
+            log.debug("Created categoria with id={}",categoriaDto.getId());
+            return  status(HttpStatus.OK).body(categoria.get());
+        }
+        else
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        //return status(HttpStatus.OK).body(categoriaService.createCategoria(categoriaDto).get());
     }
 
     @PutMapping("/{id}")
@@ -72,5 +78,4 @@ public class CategoriaController {
     public ResponseEntity<List<Video>> getVideosByCategoriaId(@NotNull @Valid String categoriaId){
         return ok(videoService.getVideosByCustomerId(categoriaId));
     }*/
-
 }
