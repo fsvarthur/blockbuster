@@ -17,6 +17,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -68,10 +69,46 @@ public class CategoriaControllerTest {
 
         when(categoriaService.createCategoria(any(CategoriaDto.class))).thenReturn(Optional.of(categoria));
 
+        mockMvc.perform(get("/categorias/v1/categorias")
+                .content(objectMapper.writeValueAsString(categoriaDto))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void should_get_categoria_by_id() throws Exception {
+        CategoriaDto categoriaDto = new CategoriaDto();
+        categoriaDto.setId(1L);
+        categoriaDto.setTitulo("free");
+
+        Categoria categoria = new Categoria();
+        categoria.setTitulo(categoriaDto.getTitulo());
+        categoria.setId(categoriaDto.getId());
+
+        doReturn(Optional.of(categoria)).when(categoriaService).findById(String.valueOf(1L));
+        when(categoriaService.findById(String.valueOf(1L))).thenReturn(Optional.of(categoria));
+
         mockMvc.perform(get("/categorias/v1/categorias/1")
                 .content(objectMapper.writeValueAsString(categoriaDto))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.titulo").value(categoriaDto.getTitulo()));
+                .andExpect(jsonPath("$.id").value(categoriaDto.getId()));
+    }
+
+    @Test
+    public void should_update_categoria() throws Exception{
+        CategoriaDto adventure = new CategoriaDto();
+        adventure.setTitulo("Adventure");
+        adventure.setId(2L);
+
+        Categoria categoria = new Categoria();
+        categoria.setId(adventure.getId());
+        categoria.setTitulo(adventure.getTitulo());
+
+        when(categoriaService.createCategoria(any(CategoriaDto.class))).thenReturn(Optional.of(categoria));
+
+
+        categoria.setTitulo("Action");
+
     }
 }

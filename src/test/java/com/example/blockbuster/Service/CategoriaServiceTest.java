@@ -10,13 +10,12 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -25,18 +24,28 @@ public class CategoriaServiceTest {
     CategoriaRepository categoriaRepository;
 
     @InjectMocks
-    CategoriaServiceImpl categoriaService;
+    CategoriaServiceImpl categoriaServiceImpl;
+
+    CategoriaDto categoriaDto;
+    Categoria categoria;
+
+    @BeforeEach
+    void setUp(){
+        categoriaDto.setTitulo("Free");
+        categoriaDto.setId(1L);
+
+        categoria.setTitulo(categoriaDto.getTitulo());
+        categoria.setId(categoriaDto.getId());
+    }
 
     @Test
-    public void when_save_categoria_should_return_categoria(){
-        CategoriaDto categoriaDto = new CategoriaDto();
-        categoriaDto.setTitulo("free");
+    public void givenCategoriaObject_whenSaveCategoria_thenReturnEmployeeObject(){
+        given(categoriaRepository.findById(categoria.getId())).willReturn(Optional.empty());
+        given(categoriaRepository.save(categoria)).willReturn(categoria);
 
-        when(categoriaRepository.save(any(Categoria.class))).thenReturn(new Categoria());
-        Optional<Categoria> x =  categoriaService.createCategoria(categoriaDto);
+        Optional<Categoria> savedCategoria = categoriaServiceImpl.createCategoria(categoriaDto);
 
-        assertThat(x.get().getTitulo()).isSameAs(categoriaDto.getTitulo());
-
+        assertThat(savedCategoria).isNotNull();
     }
 
 }

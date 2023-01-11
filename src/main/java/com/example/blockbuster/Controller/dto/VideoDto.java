@@ -10,9 +10,9 @@ import java.io.Serializable;
  */
 @Data
 public class VideoDto implements Serializable {
-    private final Long id;
-    private final String titulo;
-    private final String descricao;
-    private final String url;
-    private final CategoriaDto categoria;
+    private Long id;
+    private String titulo;
+    private String descricao;
+    private String url;
+    private CategoriaDto categoria;
 }

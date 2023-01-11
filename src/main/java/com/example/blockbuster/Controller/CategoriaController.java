@@ -3,7 +3,6 @@ package com.example.blockbuster.Controller;
 import com.example.blockbuster.Controller.dto.CategoriaDto;
 import com.example.blockbuster.Model.Categoria;
 import com.example.blockbuster.Service.CategoriaService;
-import com.example.blockbuster.Service.VideoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -29,7 +28,7 @@ public class CategoriaController {
         //this.videoService = videoService;
     }
 
-    @GetMapping("/all")
+    @GetMapping
     public ResponseEntity<Iterable<Categoria>> getAllCategorias() {
         log.debug("Returned all categorias");
         return ok(categoriaService.findAll());
@@ -59,7 +58,7 @@ public class CategoriaController {
         Optional<Categoria> categoria = categoriaService.findById(id);
         if (categoria.isPresent()) {
             log.debug("Updated categoria with id={}", id);
-            categoriaService.createCategoria(categoriaDto);
+            categoriaService.updateCategoria(id, categoriaDto);
             return new ResponseEntity<>(HttpStatus.OK);
         } else {
             log.debug("Not found Categoria with id={}",id);

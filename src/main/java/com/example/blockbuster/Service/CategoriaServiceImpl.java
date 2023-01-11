@@ -38,6 +38,7 @@ public class CategoriaServiceImpl implements CategoriaService {
     }
 
     public void updateCategoria(String id, CategoriaDto categoriaDto) {
+        findOrThrow(Long.valueOf(id));
         categoriaRepository.save(toEntity(categoriaDto));
     }
 
@@ -47,9 +48,16 @@ public class CategoriaServiceImpl implements CategoriaService {
 
     private Categoria toEntity(CategoriaDto categoriaDto) {
         Categoria categoria = new Categoria();
+        categoria.setId(categoriaDto.getId());
         categoria.setCor(categoriaDto.getCor());
         categoria.setTitulo(categoriaDto.getTitulo());
         return categoria;
+    }
+
+    private Categoria findOrThrow(final Long id){
+        return categoriaRepository.findById(id).orElseThrow(
+                () -> new NotFoundException("Categoria com id "+id+" não encontrada.")
+        );
     }
 
 
