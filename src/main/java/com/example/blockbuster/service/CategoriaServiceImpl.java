@@ -13,8 +13,6 @@ import java.util.Optional;
 
 @Service
 public class CategoriaServiceImpl implements CategoriaService {
-
-    private static final Logger log = LoggerFactory.getLogger(CategoriaService.class);
     private CategoriaRepository categoriaRepository;
     //private VideoRepository videoRepository;
 
@@ -37,9 +35,10 @@ public class CategoriaServiceImpl implements CategoriaService {
         return Optional.of(categoriaRepository.save(toEntity(catDto)));
     }
 
-    public void updateCategoria(String id, CategoriaDto categoriaDto) {
+    public Optional<Categoria> updateCategoria(String id, CategoriaDto categoriaDto) {
         findOrThrow(Long.valueOf(id));
         categoriaRepository.save(toEntity(categoriaDto));
+        return Optional.of(categoriaRepository.save(toEntity(categoriaDto)));
     }
 
     public void deleteCategoriaById(String id) {

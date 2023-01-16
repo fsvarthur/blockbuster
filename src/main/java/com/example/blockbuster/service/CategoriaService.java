@@ -16,7 +16,7 @@ public interface CategoriaService {
 
     public void deleteCategoriaById(String id);
 
-    public void updateCategoria(String id, CategoriaDto categoriaDto);
+    public Optional<Categoria> updateCategoria(String id, CategoriaDto categoriaDto);
 
 
 }

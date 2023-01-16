@@ -1,6 +1,7 @@
 package com.example.blockbuster.controller;
 
 import com.example.blockbuster.controller.dto.CategoriaDto;
+import com.example.blockbuster.exception.NotFoundException;
 import com.example.blockbuster.model.Categoria;
 import com.example.blockbuster.service.CategoriaService;
 import org.slf4j.Logger;
@@ -35,7 +36,7 @@ public class CategoriaController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Categoria> getCategoriaById(@Valid String id) {
+    public ResponseEntity<Categoria> getCategoriaById(@Valid @PathVariable String id) {
         log.debug("Returned categoria with id={}",id);
         return categoriaService.findById(id).map(ResponseEntity::ok).orElse(notFound().build());
     }
@@ -53,7 +54,7 @@ public class CategoriaController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Categoria> putCategoria(@RequestBody @Valid CategoriaDto categoriaDto,
-                                                  String id) {
+                                                 @PathVariable String id) {
         Optional<Categoria> categoria = categoriaService.findById(id);
         if (categoria.isPresent()) {
             log.debug("Updated categoria with id={}", id);
@@ -66,10 +67,16 @@ public class CategoriaController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteCategoria(String id) {
-        log.debug("Deleted categoria with id={}", id);
-        categoriaService.deleteCategoriaById(id);
-        return accepted().build();
+    public ResponseEntity<Void> deleteCategoria(@PathVariable String id) throws NotFoundException {
+        Optional<Categoria> categoria = categoriaService.findById(id);
+        if (categoria.isPresent()){
+            log.debug("Deleted categoria with id={}", id);
+            categoriaService.deleteCategoriaById(id);
+            return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        }else{
+            log.debug("Not found Categoria with id={}",id);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     //TODO getMapping("/{id}/videos")
