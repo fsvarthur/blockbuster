@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 import java.util.Optional;
@@ -36,7 +37,7 @@ public class CategoriaController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Categoria> getCategoriaById(@Valid @PathVariable String id) {
+    public ResponseEntity<Categoria> getCategoriaById(@PathVariable String id) {
         log.debug("Returned categoria with id={}",id);
         return categoriaService.findById(id).map(ResponseEntity::ok).orElse(notFound().build());
     }
@@ -49,21 +50,19 @@ public class CategoriaController {
             return  status(HttpStatus.OK).body(categoria.get());
         }
         else
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Categoria> putCategoria(@RequestBody @Valid CategoriaDto categoriaDto,
-                                                 @PathVariable String id) {
-        Optional<Categoria> categoria = categoriaService.findById(id);
-        if (categoria.isPresent()) {
-            log.debug("Updated categoria with id={}", id);
-            categoriaService.updateCategoria(id, categoriaDto);
-            return new ResponseEntity<>(HttpStatus.OK);
-        } else {
-            log.debug("Not found Categoria with id={}",id);
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+    public ResponseEntity<Categoria> putCategoria(@PathVariable("id") String id,
+                                                  @RequestBody @Valid CategoriaDto categoriaDto) {
+        if (!id.equals(categoriaDto.getId())) throw new ResponseStatusException(
+                HttpStatus.BAD_REQUEST,
+                "id does not match"
+        );
+        log.debug("Updated categoria with id={}", id);
+        categoriaService.updateCategoria(id, categoriaDto);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")

@@ -36,7 +36,7 @@ class VideosController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Video> getVideoById(@Valid String id) {
+    public ResponseEntity<Video> getVideoById(@PathVariable String id) {
         LOG.debug("Returned the found video for videoId={}", id);
         return videoService.findById(id).map(ResponseEntity::ok).orElse(notFound().build());
     }
@@ -51,12 +51,12 @@ class VideosController {
             LOG.debug("Created video with id", videoDto.getId());
             return status(HttpStatus.OK).body(video.get());
         }else{
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<VideoDto> updateVideo(String id, @RequestBody @Valid VideoDto newVideo) {
+    public ResponseEntity<VideoDto> updateVideo(@PathVariable("id") String id, @RequestBody @Valid VideoDto newVideo) {
         Optional<Video> video = videoService.findById(id);
         if (video.isPresent()) {
             LOG.debug("Updated the video with id={}",id);
@@ -69,10 +69,16 @@ class VideosController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteVideo(String id) {
-        LOG.debug("Deleted video with id={}", id);
-        videoService.deleteById(id);
-        return accepted().build();
+    public ResponseEntity<Void> deleteVideo(@PathVariable String id) {
+        Optional<Video> video = videoService.findById(id);
+        if(video.isPresent()){
+            videoService.deleteById(id);
+            LOG.debug("Deleted video with id={}", id);
+            return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        }else{
+            LOG.debug("Could not delete video with id={}", id);
+            return new ResponseEntity<>(badRequest().build().getStatusCode());
+        }
     }
 
 }

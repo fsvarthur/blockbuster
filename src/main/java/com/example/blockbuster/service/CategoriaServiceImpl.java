@@ -22,7 +22,7 @@ public class CategoriaServiceImpl implements CategoriaService {
     }
 
     public Iterable<Categoria> findAll() {
-        return (List<Categoria>) categoriaRepository.findAll();
+        return categoriaRepository.findAll();
     }
 
     public Optional<Categoria> findById(String id) {
@@ -36,8 +36,7 @@ public class CategoriaServiceImpl implements CategoriaService {
     }
 
     public Optional<Categoria> updateCategoria(String id, CategoriaDto categoriaDto) {
-        findOrThrow(Long.valueOf(id));
-        categoriaRepository.save(toEntity(categoriaDto));
+        findOrThrow(id);
         return Optional.of(categoriaRepository.save(toEntity(categoriaDto)));
     }
 
@@ -53,8 +52,8 @@ public class CategoriaServiceImpl implements CategoriaService {
         return categoria;
     }
 
-    private Categoria findOrThrow(final Long id){
-        return categoriaRepository.findById(id).orElseThrow(
+    private Categoria findOrThrow(final String id){
+        return categoriaRepository.findById(Long.valueOf(id)).orElseThrow(
                 () -> new NotFoundException("Categoria com id "+id+" não encontrada.")
         );
     }
