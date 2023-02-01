@@ -2,7 +2,6 @@ package com.example.blockbuster.controller;
 
 
 import com.example.blockbuster.controller.dto.CategoriaDto;
-import com.example.blockbuster.exception.NotFoundException;
 import com.example.blockbuster.model.Categoria;
 import com.example.blockbuster.service.CategoriaService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -17,13 +16,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import java.util.Collections;
 import java.util.Optional;
 
-import static junit.framework.TestCase.assertEquals;
-import static junit.framework.TestCase.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;

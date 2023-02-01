@@ -4,11 +4,8 @@ import com.example.blockbuster.controller.dto.CategoriaDto;
 import com.example.blockbuster.exception.NotFoundException;
 import com.example.blockbuster.model.Categoria;
 import com.example.blockbuster.repository.CategoriaRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
