@@ -4,6 +4,7 @@ import com.example.blockbuster.controller.dto.CategoriaDto;
 import com.example.blockbuster.exception.NotFoundException;
 import com.example.blockbuster.model.Categoria;
 import com.example.blockbuster.service.CategoriaService;
+import com.example.blockbuster.service.VideoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -18,16 +19,16 @@ import static org.springframework.http.ResponseEntity.*;
 
 
 @RestController
-@RequestMapping("/categorias/v1/categorias")
+@RequestMapping("/api/v1/categorias")
 public class CategoriaController {
     private static final Logger log = LoggerFactory.getLogger(CategoriaController.class);
 
     private CategoriaService categoriaService;
-    //private VideoService videoService;
+    private VideoService videoService;
 
     public CategoriaController(CategoriaService categoriaService) {
         this.categoriaService = categoriaService;
-        //this.videoService = videoService;
+        this.videoService = videoService;
     }
 
     @GetMapping

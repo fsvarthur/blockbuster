@@ -8,6 +8,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Optional;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
@@ -18,7 +20,6 @@ public class CategoriaRepositoryTest {
     @Autowired
     private CategoriaRepository categoriaRepository;
 
-
     private final String TITULO = "Adventure";
     private final String COR = "#451525";
 
@@ -28,7 +29,9 @@ public class CategoriaRepositoryTest {
         categoria.setId(1L);
         categoria.setTitulo(TITULO);
         categoria.setCor(COR);
-        categoria = testEntityManager.persistAndFlush(categoria);
-        assertThat(categoriaRepository.findById(categoria.getId()).get()).isEqualTo(categoria);
+        testEntityManager.persist(categoria);
+        testEntityManager.flush();
+        Optional<Categoria> found = categoriaRepository.findById(categoria.getId());
+        assertThat(found.get().equals(categoria));
     }
 }

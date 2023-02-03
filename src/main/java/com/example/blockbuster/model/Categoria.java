@@ -7,29 +7,46 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
-//@RedisHash("Categoria")
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Getter
-@Setter
-@ToString
 public class Categoria {
 
-    @ToString.Include
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(nullable = false, updatable = false)
     private Long id;
 
-    @ToString.Include
     @Column(name = "titulo", nullable = false)
     @NotNull
     private String titulo;
 
-    @ToString.Include
     @Column(name = "cor", nullable = false)
     private String cor;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
+    }
+
+    public String getCor() {
+        return cor;
+    }
+
+    public void setCor(String cor) {
+        this.cor = cor;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -42,5 +59,14 @@ public class Categoria {
     @Override
     public int hashCode() {
         return getClass().hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "Categoria{" +
+                "id=" + id +
+                ", titulo='" + titulo + '\'' +
+                ", cor='" + cor + '\'' +
+                '}';
     }
 }

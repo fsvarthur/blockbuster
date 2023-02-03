@@ -34,7 +34,7 @@ public class VideoControllerTest {
     @MockBean
     private CategoriaService categoriaService;
 
-    private final String REQ = "/videos/v1/videos";
+    private final String REQ = "/api/v1/videos";
 
     ObjectMapper objectMapper = new ObjectMapper();
 

@@ -4,6 +4,7 @@ package com.example.blockbuster.controller;
 import com.example.blockbuster.controller.dto.CategoriaDto;
 import com.example.blockbuster.model.Categoria;
 import com.example.blockbuster.service.CategoriaService;
+import com.example.blockbuster.service.VideoService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -33,6 +34,8 @@ public class CategoriaControllerTest {
 
     @MockBean
     private CategoriaService categoriaService;
+    @MockBean
+    private VideoService videoService;
     ObjectMapper objectMapper = new ObjectMapper();
 
     @Test
@@ -49,7 +52,7 @@ public class CategoriaControllerTest {
 
         when(categoriaService.createCategoria(any(CategoriaDto.class))).thenReturn(Optional.of(categoria));
 
-        mockMvc.perform(post("/categorias/v1/categorias")
+        mockMvc.perform(post("/api/v1/categorias")
                 .content(objectMapper.writeValueAsString(categoriaDto))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -69,7 +72,7 @@ public class CategoriaControllerTest {
 
         when(categoriaService.createCategoria(any(CategoriaDto.class))).thenReturn(Optional.of(categoria));
 
-        mockMvc.perform(get("/categorias/v1/categorias")
+        mockMvc.perform(get("/api/v1/categorias")
                 .content(objectMapper.writeValueAsString(categoriaDto))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
@@ -87,7 +90,7 @@ public class CategoriaControllerTest {
 
         when(categoriaService.findById(String.valueOf(categoria.getId()))).thenReturn(Optional.of(categoria));
 
-        mockMvc.perform(get("/categorias/v1/categorias/1")
+        mockMvc.perform(get("/api/v1/categorias/1")
                 .content(objectMapper.writeValueAsString(categoriaDto))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -132,7 +135,7 @@ public class CategoriaControllerTest {
 
         when(categoriaService.findById(String.valueOf(categoria.getId()))).thenReturn(Optional.of(categoria));
 
-        mockMvc.perform(delete("/categorias/v1/categorias/1")
+        mockMvc.perform(delete("/api/v1/categorias/1")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isAccepted());
     }
@@ -143,7 +146,7 @@ public class CategoriaControllerTest {
         categoria.setId(Long.valueOf(1));
 
         when(categoriaService.findById(String.valueOf(categoria.getId()))).thenReturn(Optional.of(categoria));
-        mockMvc.perform(delete("/categorias/v1/categorias/2")
+        mockMvc.perform(delete("/api/v1/categorias/2")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
                 /*.andExpect(result -> assertTrue(result.getResolvedException() instanceof NotFoundException))

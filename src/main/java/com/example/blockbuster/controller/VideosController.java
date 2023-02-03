@@ -18,7 +18,7 @@ import static org.springframework.http.ResponseEntity.*;
 
 
 @RestController
-@RequestMapping("/videos/v1/videos")
+@RequestMapping("/api/v1/videos")
 class VideosController {
     private static final Logger LOG = LoggerFactory.getLogger(VideosController.class);
     private VideoService videoService;
@@ -29,7 +29,7 @@ class VideosController {
         this.categoriaService = categoriaService;
     }
 
-    @GetMapping
+    @GetMapping("/")
     public ResponseEntity<List<Video>> getAllVideos() {
         LOG.debug("Returned all videos");
         return ok(videoService.findAll());
