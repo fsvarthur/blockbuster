@@ -21,11 +21,11 @@ public class SecurityConfig {
     @Bean
     SecurityFilterChain configureSecurity(HttpSecurity http) throws Exception{
         http.authorizeHttpRequests()
-                //.requestMatchers("/login").permitAll()
-                //.requestMatchers().authenticated()
-               // .requestMatchers(HttpMethod.GET, "/api/**").authenticated()
-               // .requestMatchers("/admin").hasRole("ADMIN")
-               //.requestMatchers(HttpMethod.POST,"/delete/**", "/new-video").authenticated()
+                .antMatchers("/login").permitAll()
+                .antMatchers().authenticated()
+                .antMatchers(HttpMethod.GET, "/api/**").authenticated()
+                .antMatchers("/admin").hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST,"/delete/**", "/new-video").authenticated()
                 .anyRequest().denyAll()
                 .and().formLogin()
                 .and().httpBasic();

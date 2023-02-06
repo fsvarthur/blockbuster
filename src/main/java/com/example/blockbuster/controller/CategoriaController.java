@@ -7,6 +7,7 @@ import com.example.blockbuster.service.CategoriaService;
 import com.example.blockbuster.service.VideoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +15,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 import static org.springframework.http.ResponseEntity.*;
 
@@ -40,7 +42,13 @@ public class CategoriaController {
     @GetMapping("/{id}")
     public ResponseEntity<Categoria> getCategoriaById(@PathVariable String id) {
         log.debug("Returned categoria with id={}",id);
-        return categoriaService.findById(id).map(ResponseEntity::ok).orElse(notFound().build());
+        //Optional<Categoria> categoria = categoriaService.findById(id);
+        //String version = categoria.getVersion(); Need to put versionCategoria
+        return categoriaService.findById(id).map(ResponseEntity::ok)
+                .orElse(notFound()
+                        //.cacheControl(CacheControl.maxAge(30, TimeUnit.DAYS))
+                        //.eTag(version)
+                        .build());
     }
 
     @PostMapping

@@ -4,6 +4,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -38,9 +40,9 @@ public class UserAcc{
     }
 
     public UserDetails asUser(){
-        return User.withDefaultPasswordEncoder()
-                .username(getUsername())
-                .password(getPassword())
+        PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+        return User.withUsername(getUsername())
+                .password("{bcrypt}"+encoder.encode(getPassword()))
                 .authorities(getAuthorityList())
                 .build();
     }
