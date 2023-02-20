@@ -1,21 +1,8 @@
 package com.example.blockbuster.model;
 
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
-import org.springframework.security.crypto.password.PasswordEncoder;
-
-import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
-
-@Entity
+//@Entity
 public class UserAcc{
-
+/*
     @Id
     @GeneratedValue
     private Long id;
@@ -100,5 +87,5 @@ public class UserAcc{
                 ", password='" + password + '\'' +
                 ", authorityList=" + authorityList +
                 '}';
-    }
+    }*/
 }

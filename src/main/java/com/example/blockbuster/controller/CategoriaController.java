@@ -7,7 +7,6 @@ import com.example.blockbuster.service.CategoriaService;
 import com.example.blockbuster.service.VideoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +14,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 import java.util.Optional;
-import java.util.concurrent.TimeUnit;
 
 import static org.springframework.http.ResponseEntity.*;
 
@@ -28,7 +26,7 @@ public class CategoriaController {
     private CategoriaService categoriaService;
     private VideoService videoService;
 
-    public CategoriaController(CategoriaService categoriaService) {
+    public CategoriaController(CategoriaService categoriaService, VideoService videoService) {
         this.categoriaService = categoriaService;
         this.videoService = videoService;
     }
@@ -65,13 +63,14 @@ public class CategoriaController {
     @PutMapping("/{id}")
     public ResponseEntity<Categoria> putCategoria(@PathVariable("id") String id,
                                                   @RequestBody @Valid CategoriaDto categoriaDto) {
-        if (!id.equals(categoriaDto.getId())) throw new ResponseStatusException(
-                HttpStatus.BAD_REQUEST,
-                "id does not match"
-        );
-        log.debug("Updated categoria with id={}", id);
-        categoriaService.updateCategoria(id, categoriaDto);
-        return new ResponseEntity<>(HttpStatus.OK);
+        if (Long.valueOf(id).equals(categoriaDto.getId())) {
+            log.debug("Updated categoria with id={}", id);
+            categoriaService.updateCategoria(id, categoriaDto);
+            Optional<Categoria> categoria = categoriaService.findById(id);
+            return status(HttpStatus.OK).body(categoria.get());
+        } else {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @DeleteMapping("/{id}")

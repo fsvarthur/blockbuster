@@ -9,5 +9,4 @@ public class BlockbusterApplication {
     public static void main(String[] args) {
         SpringApplication.run(BlockbusterApplication.class, args);
     }
-
 }

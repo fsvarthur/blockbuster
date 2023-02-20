@@ -1,18 +1,11 @@
 package com.example.blockbuster.security;
 
-import com.example.blockbuster.repository.UserRepository;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
-import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
-@EnableMethodSecurity
+//@EnableMethodSecurity
 public class SecurityConfig {
-
+/*
     @Bean
     UserDetailsService userService(UserRepository repo){
         return username -> repo.findByUsername(username).asUser();
@@ -32,6 +25,6 @@ public class SecurityConfig {
         return http.build();
     }
 
-
+*/
 
 }

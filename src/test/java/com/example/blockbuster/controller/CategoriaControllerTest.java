@@ -107,20 +107,20 @@ public class CategoriaControllerTest {
         categoria.setId(adventure.getId());
         categoria.setTitulo(adventure.getTitulo());
 
-        CategoriaDto update = adventure;
-        update.setTitulo("Action");
-
         when(categoriaService.findById(String.valueOf(categoria.getId()))).thenReturn(Optional.of(categoria));
-        when(categoriaService.updateCategoria(String.valueOf(categoria.getId()), update)).thenReturn(Optional.of(categoria));
 
-        MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.post("/categorias/v1/categorias")
+        CategoriaDto cat = adventure;
+        cat.setTitulo("Action");
+
+        when(categoriaService.updateCategoria(String.valueOf(categoria.getId()),cat)).thenReturn(Optional.of(categoria));
+
+        MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.put("/api/v1/categorias/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
-                .content(this.objectMapper.writeValueAsString(update));
-
+                .content(this.objectMapper.writeValueAsString(cat));
         mockMvc.perform(mockRequest)
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.titulo").value(categoria.getTitulo()));
+                .andExpect(jsonPath("$.titulo").value(cat.getTitulo()));
     }
 
     @Test
