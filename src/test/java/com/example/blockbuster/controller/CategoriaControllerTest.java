@@ -3,6 +3,7 @@ package com.example.blockbuster.controller;
 
 import com.example.blockbuster.controller.dto.CategoriaDto;
 import com.example.blockbuster.model.Categoria;
+import com.example.blockbuster.model.Video;
 import com.example.blockbuster.service.CategoriaService;
 import com.example.blockbuster.service.VideoService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -17,6 +18,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -143,7 +145,7 @@ public class CategoriaControllerTest {
     @Test
     public void deleteCategoriaById_notFound() throws Exception{
         Categoria categoria = new Categoria();
-        categoria.setId(Long.valueOf(1));
+        categoria.setId(1L);
 
         when(categoriaService.findById(String.valueOf(categoria.getId()))).thenReturn(Optional.of(categoria));
         mockMvc.perform(delete("/api/v1/categorias/2")
@@ -152,5 +154,24 @@ public class CategoriaControllerTest {
                 /*.andExpect(result -> assertTrue(result.getResolvedException() instanceof NotFoundException))
                 .andExpect(result -> assertEquals("Categoria com id 2 não encontrada.",
                         result.getResolvedException().getMessage()));*/
+    }
+
+    @Test
+    public void getVideos_byCategoriaId() throws Exception{
+        Video video = new Video();
+        video.setId(1L);
+
+        Categoria categoria = new Categoria();
+        categoria.setId(1L);
+
+        video.setCategoria(categoria);
+
+        when(categoriaService.findById(String.valueOf(categoria.getId()))).thenReturn(Optional.of(categoria));
+        when(videoService.findAll()).thenReturn(List.of(video));
+
+        mockMvc.perform(get("/api/v1/categorias/1/videos")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+
     }
 }

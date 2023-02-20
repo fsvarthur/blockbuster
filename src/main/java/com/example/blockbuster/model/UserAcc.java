@@ -1,8 +1,10 @@
 package com.example.blockbuster.model;
 
-//@Entity
+import javax.persistence.*;
+
+@Entity
 public class UserAcc{
-/*
+
     @Id
     @GeneratedValue
     private Long id;
@@ -11,8 +13,8 @@ public class UserAcc{
 
     private String password;
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    private List<GrantedAuthority> authorityList = new ArrayList<>();
+    //@ElementCollection(fetch = FetchType.EAGER)
+    //private List<GrantedAuthority> authorityList = new ArrayList<>();
 
     public UserAcc() {
     }
@@ -20,19 +22,19 @@ public class UserAcc{
     public UserAcc(String username, String password, String... authorityList) {
         this.username = username;
         this.password = password;
-        this.authorityList = Arrays.stream(authorityList)
-                .map(SimpleGrantedAuthority::new)
-                .map(GrantedAuthority.class::cast)
-                .toList();
+        //this.authorityList = Arrays.stream(authorityList)
+             //   .map(SimpleGrantedAuthority::new)
+             //   .map(GrantedAuthority.class::cast)
+              //  .toList();
     }
 
-    public UserDetails asUser(){
+    /*public UserDetails asUser(){
         PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
         return User.withUsername(getUsername())
                 .password("{bcrypt}"+encoder.encode(getPassword()))
                 .authorities(getAuthorityList())
                 .build();
-    }
+    }*/
 
     public Long getId() {
         return id;
@@ -57,7 +59,7 @@ public class UserAcc{
     public void setPassword(String password) {
         this.password = password;
     }
-
+/*
     public List<GrantedAuthority> getAuthorityList() {
         return authorityList;
     }
@@ -77,7 +79,7 @@ public class UserAcc{
     @Override
     public int hashCode() {
         return Objects.hash(id, username, password, authorityList);
-    }
+    }*/
 
     @Override
     public String toString() {
@@ -85,7 +87,7 @@ public class UserAcc{
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
-                ", authorityList=" + authorityList +
+                //", authorityList=" + authorityList +
                 '}';
-    }*/
+    }
 }

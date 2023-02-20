@@ -3,6 +3,7 @@ package com.example.blockbuster.controller;
 import com.example.blockbuster.controller.dto.CategoriaDto;
 import com.example.blockbuster.exception.NotFoundException;
 import com.example.blockbuster.model.Categoria;
+import com.example.blockbuster.model.Video;
 import com.example.blockbuster.service.CategoriaService;
 import com.example.blockbuster.service.VideoService;
 import org.slf4j.Logger;
@@ -13,7 +14,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 import static org.springframework.http.ResponseEntity.*;
 
@@ -87,4 +91,24 @@ public class CategoriaController {
     }
 
     //TODO getMapping("/{id}/videos")
+
+    @GetMapping("/{id}/videos")
+    public ResponseEntity<List<Video>> getVideosByCategoriaId(@PathVariable String id) throws Exception{
+        List<Video> listVideo = new ArrayList<>();
+        if(itExists(id)){
+            videoService.findAll().forEach(x ->{
+                if(x.getCategoria().getId().equals(Long.valueOf(id)))
+                    listVideo.add(x);
+            });
+        }else{
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return status(HttpStatus.OK).body(listVideo);
+    }
+
+    private Boolean itExists(String id){
+        if(categoriaService.findById(id).isPresent())
+            return true;
+        return false;
+    }
 }

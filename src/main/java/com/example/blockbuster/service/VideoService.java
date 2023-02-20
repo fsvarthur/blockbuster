@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface VideoService {
 
-    public List<Video> findAll();
+    public Iterable<Video> findAll();
 
     public Optional<Video> findById(String id);
 

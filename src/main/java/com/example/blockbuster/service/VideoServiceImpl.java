@@ -24,8 +24,8 @@ public class VideoServiceImpl implements VideoService {
         this.videoRepository = videoRepository;
     }
 
-    public List<Video> findAll() {
-        return (List<Video>) videoRepository.findAll();
+    public Iterable<Video> findAll() {
+        return videoRepository.findAll();
     }
 
 
@@ -40,10 +40,6 @@ public class VideoServiceImpl implements VideoService {
     public void deleteById(String id) {
         categoriaRepository.deleteById(Long.valueOf(id));
     }
-
-    /*public List<Video> getVideosByCustomerId(String categoriaId) {
-        return videoRepository.findByCategoriaId(Long.valueOf(categoriaId));
-    }*/
 
     private Video toEntity(VideoDto videoDto) {
         Video video = new Video();

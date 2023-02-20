@@ -30,7 +30,7 @@ class VideosController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<Video>> getAllVideos() {
+    public ResponseEntity<Iterable<Video>> getAllVideos() {
         LOG.debug("Returned all videos");
         return ok(videoService.findAll());
     }
