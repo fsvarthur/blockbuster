@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,7 +43,24 @@ class VideosController {
     }
 
     //TODO get videos with categoria free
+    @GetMapping("/free")
+    public ResponseEntity<List<Video>> getVideo_withCategoriaFree(){
+        LOG.debug("Returned videos with categoria free");
+        List<Video> videos = new ArrayList<>();
+        videoService.findAll().forEach(x -> {
+            if(x.getCategoria().equals(categoriaService.findById(String.valueOf(0))))
+                videos.add(x);
+        });
+        return status(HttpStatus.OK).body(videos);
+    }
+
+
     //TODO get with query titulo
+    @GetMapping("/{query}")
+    public ResponseEntity<List<Video>> getVideo_byQuery(@PathVariable String query){
+        LOG.debug("Video queryied by "+ query);
+        return videoService.findByQuery(query).map(ResponseEntity::ok).orElse(notFound().build());
+    }
 
     @PostMapping
     public ResponseEntity<Video> addNewVideo(@RequestBody @Valid VideoDto videoDto) {

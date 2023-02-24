@@ -16,6 +16,6 @@ public interface VideoService {
     public Optional<Video> createVideo(VideoDto videoDto);
 
     public void deleteById(String id);
-    //public List<Video> getVideosByCustomerId(String categoriaId);
+    public Optional<List<Video>> findByQuery(String titulo);
 
 }

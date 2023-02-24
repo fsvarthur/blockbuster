@@ -1,6 +1,7 @@
 package com.example.blockbuster.controller;
 
 import com.example.blockbuster.controller.dto.VideoDto;
+import com.example.blockbuster.model.Categoria;
 import com.example.blockbuster.model.Video;
 import com.example.blockbuster.service.CategoriaService;
 import com.example.blockbuster.service.VideoService;
@@ -109,13 +110,45 @@ public class VideoControllerTest {
     @Test
     public void deleteVideoById_notFound() throws Exception{
         Video video = new Video();
-        video.setId(Long.valueOf(1));
+        video.setId(1L);
 
         when(videoService.findById(String.valueOf(video.getId()))).thenReturn(Optional.of(video));
 
         mockMvc.perform(delete(REQ+"/2")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void getVideo_withCategoriaFree() throws Exception{
+        Video video = new Video();
+        video.setId(1L);
+
+        Categoria cat = new Categoria();
+        cat.setId(1L);
+        cat.setTitulo("Free");
+        video.setCategoria(cat);
+
+        when(videoService.createVideo(any(VideoDto.class))).thenReturn(Optional.of(video));
+
+        mockMvc.perform(get(REQ+"/free")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void getVideo_ByTitulo() throws Exception{
+        Video video = new Video();
+        video.setId(1L);
+        video.setTitulo("Action");
+
+
+        when(videoService.createVideo(any(VideoDto.class))).thenReturn(Optional.of(video));
+
+        mockMvc.perform(get(REQ+"/action")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.titulo").value(video.getTitulo()));
     }
 
 

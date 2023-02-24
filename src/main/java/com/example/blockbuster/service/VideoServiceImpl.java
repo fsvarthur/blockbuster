@@ -41,6 +41,10 @@ public class VideoServiceImpl implements VideoService {
         categoriaRepository.deleteById(Long.valueOf(id));
     }
 
+    public Optional<List<Video>> findByQuery(String titulo){
+        return Optional.of(videoRepository.findVideo_byQuery(titulo));
+    }
+
     private Video toEntity(VideoDto videoDto) {
         Video video = new Video();
         video.setTitulo(videoDto.getTitulo());
