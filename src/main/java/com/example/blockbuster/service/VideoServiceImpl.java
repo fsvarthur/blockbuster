@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 @Service
 public class VideoServiceImpl implements VideoService {
@@ -25,7 +26,7 @@ public class VideoServiceImpl implements VideoService {
     }
 
     public List<Video> findAll() {
-        return (List<Video>) videoRepository.findAll();
+        return videoRepository.findAll();
     }
 
 
@@ -41,9 +42,13 @@ public class VideoServiceImpl implements VideoService {
         categoriaRepository.deleteById(Long.valueOf(id));
     }
 
-    /*public List<Video> getVideosByCustomerId(String categoriaId) {
-        return videoRepository.findByCategoriaId(Long.valueOf(categoriaId));
-    }*/
+    @Override
+    public Stream<Video> getVideoCategoriaFree() {
+        return videoRepository.findAll().stream().filter(video -> {
+            if (video.getCategoria().getTitulo().equals("free")) ;
+            return false;
+        });
+    }
 
     private Video toEntity(VideoDto videoDto) {
         Video video = new Video();

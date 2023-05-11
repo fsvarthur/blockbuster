@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 import static org.springframework.http.ResponseEntity.*;
 
@@ -42,15 +43,21 @@ class VideosController {
     }
 
     //TODO get videos with categoria free
+    @GetMapping("/free")
+    public Stream<Video> getVideosWithCategoriaFree() {
+        LOG.debug("Got videos with categoria free");
+        return videoService.getVideoCategoriaFree();
+    }
+
     //TODO get with query titulo
 
     @PostMapping
     public ResponseEntity<Video> addNewVideo(@RequestBody @Valid VideoDto videoDto) {
         Optional<Video> video = videoService.createVideo(videoDto);
-        if(video.isPresent()){
-            LOG.debug("Created video with id", videoDto.getId());
+        if (video.isPresent()) {
+            LOG.debug("Created video with id={}", videoDto.getId());
             return status(HttpStatus.OK).body(video.get());
-        }else{
+        } else {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -59,11 +66,11 @@ class VideosController {
     public ResponseEntity<VideoDto> updateVideo(String id, @RequestBody @Valid VideoDto newVideo) {
         Optional<Video> video = videoService.findById(id);
         if (video.isPresent()) {
-            LOG.debug("Updated the video with id={}",id);
+            LOG.debug("Updated the video with id={}", id);
             videoService.createVideo(newVideo);
             return new ResponseEntity<>(HttpStatus.OK);
         } else {
-            LOG.debug("Not found video to update with id={}",id);
+            LOG.debug("Not found video to update with id={}", id);
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }

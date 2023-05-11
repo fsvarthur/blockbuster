@@ -4,8 +4,6 @@ import com.example.blockbuster.controller.dto.CategoriaDto;
 import com.example.blockbuster.exception.NotFoundException;
 import com.example.blockbuster.model.Categoria;
 import com.example.blockbuster.repository.CategoriaRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -53,9 +51,9 @@ public class CategoriaServiceImpl implements CategoriaService {
         return categoria;
     }
 
-    private Categoria findOrThrow(final Long id){
+    private Categoria findOrThrow(final Long id) {
         return categoriaRepository.findById(id).orElseThrow(
-                () -> new NotFoundException("Categoria com id "+id+" não encontrada.")
+                () -> new NotFoundException("Categoria com id " + id + " não encontrada.")
         );
     }
 

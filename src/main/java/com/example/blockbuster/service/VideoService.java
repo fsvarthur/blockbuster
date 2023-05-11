@@ -5,17 +5,18 @@ import com.example.blockbuster.model.Video;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 
 public interface VideoService {
 
-    public List<Video> findAll();
+    List<Video> findAll();
 
-    public Optional<Video> findById(String id);
+    Optional<Video> findById(String id);
 
-    public Optional<Video> createVideo(VideoDto videoDto);
+    Optional<Video> createVideo(VideoDto videoDto);
 
-    public void deleteById(String id);
-    //public List<Video> getVideosByCustomerId(String categoriaId);
+    void deleteById(String id);
 
+    Stream<Video> getVideoCategoriaFree();
 }

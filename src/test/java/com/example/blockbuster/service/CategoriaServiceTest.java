@@ -14,7 +14,6 @@ import org.mockito.junit.MockitoJUnitRunner;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -29,7 +28,7 @@ public class CategoriaServiceTest {
     Categoria categoria;
 
     @BeforeEach
-    void setUp(){
+    void setUp() {
         categoriaDto.setTitulo("Free");
         categoriaDto.setId(1L);
 
@@ -38,7 +37,7 @@ public class CategoriaServiceTest {
     }
 
     @Test
-    public void givenCategoriaObject_whenSaveCategoria_thenReturnEmployeeObject(){
+    public void givenCategoriaObject_whenSaveCategoria_thenReturnEmployeeObject() {
         given(categoriaRepository.findById(categoria.getId())).willReturn(Optional.empty());
         given(categoriaRepository.save(categoria)).willReturn(categoria);
 
